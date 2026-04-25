@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Guess who？</title>
-<!-- Firebase Firestore -->
+<title>だれの回答？</title>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-<!-- QR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -54,7 +52,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 .eb{font-size:24px;width:42px;height:42px;border-radius:50%;background:transparent;border:2px solid transparent;cursor:pointer;transition:all .1s;}
 .eb.on{background:#a29bfe28;border-color:#a29bfe;}
 .cg{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
-.cd{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .1s;}
+.cd{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;}
 .cd.on{border-color:#fff;}
 .avt{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;vertical-align:middle;flex-shrink:0;}
 .avt img{width:100%;height:100%;object-fit:cover;}
@@ -73,7 +71,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 <div id="pg-landing" class="page show">
   <div class="z1 center" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;">
     <div style="font-size:88px;filter:drop-shadow(0 0 40px #a29bfeaa);">🎭</div>
-    <h1 style="font-size:48px;font-weight:900;text-shadow:0 0 60px #a29bfe55;letter-spacing:-2px;margin:8px 0 12px;">Guess who？</h1>
+    <h1 style="font-size:48px;font-weight:900;text-shadow:0 0 60px #a29bfe55;letter-spacing:-2px;margin:8px 0 12px;">だれの回答？</h1>
     <p class="sub">質問への回答を見て誰が答えたかを当てるパーティーゲーム。速く当てるほど高得点！</p>
     <div style="display:flex;flex-direction:column;gap:14px;align-items:center;width:100%;max-width:300px;">
       <button class="btn btn-p" id="btn-host">📺 ホストとして始める</button>
@@ -110,7 +108,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 <!-- HOST LOBBY -->
 <div id="pg-host-lobby" class="page">
   <div class="hdr">
-    <span class="hdr-logo">🎭 Guess who？</span>
+    <span class="hdr-logo">🎭 だれの回答？</span>
     <div style="display:flex;gap:10px;align-items:center;">
       <span class="sid-b">ID: <b id="h-sid"></b></span>
       <span class="pill">参加者募集中</span>
@@ -149,7 +147,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 
 <!-- HOST ANSWERING -->
 <div id="pg-host-answering" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">回答入力中</span></div>
+  <div class="hdr"><span class="hdr-logo">🎭 だれの回答？</span><span class="pill">回答入力中</span></div>
   <div class="z1 center">
     <div class="big-h">📝 みんなで回答を入力しよう！</div>
     <p class="sub">スマホで全員が回答するまで待ちます</p>
@@ -161,7 +159,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 <!-- HOST REVEAL -->
 <div id="pg-host-reveal" class="page">
   <div class="hdr">
-    <span class="hdr-logo">🎭 Guess who？</span>
+    <span class="hdr-logo">🎭 だれの回答？</span>
     <div style="display:flex;gap:10px;align-items:center;">
       <span class="sid-b">ID: <b id="hr-sid"></b></span>
       <span class="pill">推理タイム 🔍</span>
@@ -196,7 +194,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 
 <!-- HOST RANKING -->
 <div id="pg-host-ranking" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">ランキング 🏆</span></div>
+  <div class="hdr"><span class="hdr-logo">🎭 だれの回答？</span><span class="pill">ランキング 🏆</span></div>
   <div class="z1" style="max-width:580px;margin:0 auto;padding:36px 20px;text-align:center;">
     <div style="font-size:64px;margin-bottom:8px;">🏆</div>
     <div class="big-h">ランキング</div>
@@ -208,7 +206,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 
 <!-- HOST FINISHED -->
 <div id="pg-host-finished" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">ゲーム終了 🎊</span></div>
+  <div class="hdr"><span class="hdr-logo">🎭 だれの回答？</span><span class="pill">ゲーム終了 🎊</span></div>
   <div class="z1" style="max-width:580px;margin:0 auto;padding:36px 20px;text-align:center;">
     <div style="font-size:88px;margin-bottom:8px;">🎊</div>
     <div class="big-h">ゲーム終了！最終ランキング</div>
@@ -278,7 +276,6 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
       <p id="pg-qt" style="color:#d0c8f0;font-weight:700;font-size:16px;"></p>
     </div>
     <div class="ans-box" style="padding:20px;margin-bottom:16px;"><p id="pg-ans" style="font-size:24px;"></p></div>
-    <div id="pg-mine" style="display:none;text-align:center;padding:16px 0;"><div style="font-size:48px;">🙈</div><p style="color:#9d8fcc;">これはあなたの回答！みんなが推理中…</p></div>
     <div id="pg-wait" style="display:none;text-align:center;padding:16px 0;"><div style="font-size:48px;">👀</div><p style="color:#9d8fcc;">推理タイムの開始を待って！</p></div>
     <div id="pg-sent" style="display:none;text-align:center;padding:8px 0;"><div style="font-size:40px;">📨</div><p style="color:#9d8fcc;margin-bottom:10px;">回答を送信！</p><div id="pg-myg"></div></div>
     <div id="pg-opts" style="display:none;">
@@ -308,13 +305,15 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
       <p style="color:#9d8fcc;font-size:13px;margin-bottom:4px;">最終スコア</p>
       <span id="pfs" style="color:#ffd700;font-weight:900;font-size:32px;">0</span><span style="color:#ffffff44;font-size:14px;">pt</span>
     </div>
+    <br/>
+    <button class="btn btn-g" id="btn-player-replay" style="max-width:280px;margin-top:20px;">もう一度参加する</button>
   </div>
 </div>
 
 <script>
 'use strict';
 
-/* ━━━━━━━━━ FIREBASE CONFIG ━━━━━━━━━ */
+/* ━━━━━━━━━ FIREBASE ━━━━━━━━━ */
 const firebaseConfig = {
   apiKey: "AIzaSyB1G-Ax35ozT5a5Ji0TAZHOrxT3XfIYEig",
   authDomain: "guessgame-31c5d.firebaseapp.com",
@@ -328,6 +327,7 @@ const db = firebase.firestore();
 
 /* ━━━━━━━━━ CONSTANTS ━━━━━━━━━ */
 const GUESS_TIME = 20, MAX_PTS = 500, MIN_PTS = 50;
+const SESS_KEY = 'wsit_session_v2';
 const AVATARS = ['🐼','🦊','🐸','🐳','🦁','🐧','🦋','🐙','🦄','🐺','🦖','🐝','🦅','🐠','🦔','🐯','🦒','🐻','🐨','🦘'];
 const COLORS  = ['#FF6B9D','#FFB347','#4ECDC4','#A29BFE','#55EFC4','#FD79A8','#74B9FF','#FFEAA7','#FF7675','#00CEC9','#6C5CE7','#E17055'];
 const SAMPLE_QS = [
@@ -337,12 +337,30 @@ const SAMPLE_QS = [
   '宝くじで1億当たったら最初に何をする？','タイムマシンがあったらいつに行く？',
 ];
 
+/* ━━━━━━━━━ SESSION PERSISTENCE ━━━━━━━━━ */
+function loadSession() {
+  try { return JSON.parse(localStorage.getItem(SESS_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveSession(obj) {
+  try { localStorage.setItem(SESS_KEY, JSON.stringify(obj)); } catch(e) {}
+}
+function clearSession() {
+  try { localStorage.removeItem(SESS_KEY); } catch(e) {}
+}
+
 /* ━━━━━━━━━ STATE ━━━━━━━━━ */
 let G = null, myMode = null, sid = null, gameRef = null, unsubscribe = null;
-const myPid = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,5);
 let hostTI = null, playerTI = null;
-let selAvatar = AVATARS[0], selColor = COLORS[3], photoUrl = null;
-let pAnswers = [], playerJoined = false;
+
+// Restore or create myPid
+const _sess = loadSession();
+const myPid = _sess.pid || ('p' + Date.now().toString(36) + Math.random().toString(36).slice(2,5));
+
+let selAvatar    = _sess.avatar  || AVATARS[0];
+let selColor     = _sess.color   || COLORS[3];
+let photoUrl     = _sess.photoUrl|| null;
+let playerJoined = _sess.joined  || false;
+let pAnswers     = _sess.answers || [];
 let gSubmitted = false, gTarget = null, prevRevKey = '';
 let ansPageReady = false;
 
@@ -368,9 +386,7 @@ function compressPhoto(dataUrl, cb) {
   const img = new Image();
   img.onload = function() {
     const c = document.createElement('canvas'); c.width = c.height = 72;
-    const ctx = c.getContext('2d');
-    const s = Math.min(img.width, img.height);
-    ctx.drawImage(img, (img.width-s)/2, (img.height-s)/2, s, s, 0, 0, 72, 72);
+    c.getContext('2d').drawImage(img, (img.width-Math.min(img.width,img.height))/2, (img.height-Math.min(img.width,img.height))/2, Math.min(img.width,img.height), Math.min(img.width,img.height), 0, 0, 72, 72);
     cb(c.toDataURL('image/jpeg', 0.55));
   };
   img.src = dataUrl;
@@ -389,13 +405,54 @@ function connectGame(sessionId) {
     G = snap.data();
     if (myMode === 'host')   renderHost();
     else if (myMode === 'player') renderPlayer();
-  }, function(err) {
-    console.error('Firestore error:', err);
   });
 }
 
 /* ━━━━━━━━━ INIT ━━━━━━━━━ */
 document.addEventListener('DOMContentLoaded', function() {
+
+  // Try to restore session on reload
+  const sess = loadSession();
+  if (sess.sid && sess.mode) {
+    myMode = sess.mode;
+    if (sess.mode === 'host') {
+      show('pg-connecting');
+      document.getElementById('conn-title').textContent = 'セッションを復元中…';
+      db.collection('games').doc(sess.sid).get().then(function(snap) {
+        if (snap.exists) {
+          connectGame(sess.sid);
+          initHostLobby();
+          show('pg-host-lobby');
+        } else {
+          clearSession();
+          show('pg-landing');
+        }
+      }).catch(function(){ clearSession(); show('pg-landing'); });
+    } else if (sess.mode === 'player') {
+      show('pg-connecting');
+      db.collection('games').doc(sess.sid).get().then(function(snap) {
+        if (snap.exists) {
+          const data = snap.data();
+          pAnswers = sess.answers && sess.answers.length ? sess.answers : new Array((data.questions||[]).length).fill('');
+          connectGame(sess.sid);
+          if (sess.joined && data.players && data.players[myPid]) {
+            playerJoined = true;
+            // Go directly to appropriate page based on phase
+            show('pg-pwait');
+          } else {
+            initJoinForm();
+            show('pg-player-join');
+          }
+        } else {
+          clearSession();
+          show('pg-landing');
+        }
+      }).catch(function(){ clearSession(); show('pg-landing'); });
+    }
+    saveSession({ ...sess, pid: myPid });
+    return;
+  }
+
   // Landing
   document.getElementById('btn-host').addEventListener('click', startHost);
   document.getElementById('btn-player').addEventListener('click', function() {
@@ -413,27 +470,9 @@ document.addEventListener('DOMContentLoaded', function() {
     connectAsPlayer(document.getElementById('sid-input').value);
   });
 
-  // Host
-  document.getElementById('btn-edit-q').addEventListener('click', toggleEditQ);
-  document.getElementById('btn-save-q').addEventListener('click', saveQuestions);
-  document.getElementById('btn-start-game').addEventListener('click', doStartAnswering);
-  document.getElementById('btn-start-reveal').addEventListener('click', doStartReveal);
-  document.getElementById('btn-open-guess').addEventListener('click', doOpenGuess);
-  document.getElementById('btn-skip').addEventListener('click', doNextAnswer);
-  document.getElementById('btn-reveal').addEventListener('click', doCloseAndScore);
-  document.getElementById('btn-next-p').addEventListener('click', doNextPlayer);
-  document.getElementById('btn-replay').addEventListener('click', function(){ location.href = location.pathname; });
+  bindButtons();
 
-  // Player
-  document.getElementById('btn-photo').addEventListener('click', function(){ document.getElementById('pj-photo-in').click(); });
-  document.getElementById('pj-photo-in').addEventListener('change', handlePhoto);
-  document.getElementById('btn-rm-photo').addEventListener('click', removePhoto);
-  document.getElementById('pj-name').addEventListener('input', updatePrev);
-  document.getElementById('pj-name').addEventListener('keydown', function(e){ if(e.key==='Enter') doJoin(); });
-  document.getElementById('btn-join').addEventListener('click', doJoin);
-  document.getElementById('btn-submit-ans').addEventListener('click', doSubmitAnswers);
-
-  // Auto URL detect
+  // Auto-detect URL
   const params = new URLSearchParams(location.search);
   if (params.get('mode') === 'player') {
     const s = params.get('sid');
@@ -442,10 +481,46 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Firebase ping
-  db.collection('_ping').doc('test').get()
+  db.collection('_ping').doc('x').get()
     .then(function(){ document.getElementById('fb-ok').textContent = '✅ Firebase接続OK'; })
-    .catch(function(){ document.getElementById('fb-ok').textContent = '⚠️ Firebase未設定 (ルールを確認してください)'; });
+    .catch(function(e){ document.getElementById('fb-ok').textContent = '⚠️ ' + e.message; });
 });
+
+function bindButtons() {
+  document.getElementById('btn-edit-q').addEventListener('click', toggleEditQ);
+  document.getElementById('btn-save-q').addEventListener('click', saveQuestions);
+  document.getElementById('btn-start-game').addEventListener('click', doStartAnswering);
+  document.getElementById('btn-start-reveal').addEventListener('click', doStartReveal);
+  document.getElementById('btn-open-guess').addEventListener('click', doOpenGuess);
+  document.getElementById('btn-skip').addEventListener('click', doNextAnswer);
+  document.getElementById('btn-reveal').addEventListener('click', doCloseAndScore);
+  document.getElementById('btn-next-p').addEventListener('click', doNextPlayer);
+  document.getElementById('btn-replay').addEventListener('click', doReplay);
+  document.getElementById('btn-photo').addEventListener('click', function(){ document.getElementById('pj-photo-in').click(); });
+  document.getElementById('pj-photo-in').addEventListener('change', handlePhoto);
+  document.getElementById('btn-rm-photo').addEventListener('click', removePhoto);
+  document.getElementById('pj-name').addEventListener('input', updatePrev);
+  document.getElementById('pj-name').addEventListener('keydown', function(e){ if(e.key==='Enter') doJoin(); });
+  document.getElementById('btn-join').addEventListener('click', doJoin);
+  document.getElementById('btn-submit-ans').addEventListener('click', doSubmitAnswers);
+  document.getElementById('btn-player-replay').addEventListener('click', function(){
+    clearSession(); show('pg-enter-sid');
+  });
+  // Also bind landing buttons (needed after session restore path skips early return)
+  document.getElementById('btn-host').addEventListener('click', startHost);
+  document.getElementById('btn-player').addEventListener('click', function() {
+    const s = new URLSearchParams(location.search).get('sid');
+    if (s) connectAsPlayer(s.toUpperCase());
+    else show('pg-enter-sid');
+  });
+  document.getElementById('sid-input').addEventListener('input', function() {
+    this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    document.getElementById('btn-connect-sid').disabled = this.value.length < 4;
+  });
+  document.getElementById('btn-connect-sid').addEventListener('click', function() {
+    connectAsPlayer(document.getElementById('sid-input').value);
+  });
+}
 
 /* ━━━━━━━━━ HOST: START ━━━━━━━━━ */
 function startHost() {
@@ -455,24 +530,19 @@ function startHost() {
 
   const sessionId = mkSid();
   db.collection('games').doc(sessionId).set({
-    phase: 'lobby',
-    questions: SAMPLE_QS.slice(0,3),
-    order: [],
-    revealIdx: 0,
-    answerIdx: 0,
-    scores: {},
-    guessOpen: false,
-    guessStartTs: null,
-    players: {},
-    guesses: {},
+    phase:'lobby', questions:SAMPLE_QS.slice(0,3),
+    order:[], revealIdx:0, answerIdx:0, scores:{},
+    guessOpen:false, guessStartTs:null, players:{}, guesses:{},
   }).then(function() {
+    saveSession({ pid:myPid, sid:sessionId, mode:'host' });
     connectGame(sessionId);
     initHostLobby();
     show('pg-host-lobby');
+    bindButtons();
   }).catch(function(err) {
     const e = document.getElementById('conn-err');
-    e.style.display = 'block';
-    e.textContent = '❌ エラー: ' + err.message + '\n\nFirebaseコンソール → Firestore Database → ルール を確認してください。\nルールを以下に変更:\nallow read, write: if true;';
+    e.style.display='block';
+    e.textContent='❌ ' + err.message + '\n\nFirestore のルールで allow read, write: if true; を設定してください。';
   });
 }
 
@@ -480,11 +550,27 @@ function initHostLobby() {
   document.getElementById('h-sid').textContent  = sid;
   document.getElementById('hr-sid').textContent = sid;
   document.getElementById('qr-sid').textContent = sid;
-  renderQList();
+  if (G) renderQList();
   const url = location.href.split('?')[0] + '?mode=player&sid=' + sid;
   if (window.QRious) {
     new QRious({ element:document.getElementById('qr-canvas'), value:url, size:200, background:'#13112a', foreground:'#c8b6ff', padding:14, level:'H' });
   }
+}
+
+function doReplay() {
+  // Create a new game without reloading the page
+  const sessionId = mkSid();
+  db.collection('games').doc(sessionId).set({
+    phase:'lobby', questions: G ? G.questions : SAMPLE_QS.slice(0,3),
+    order:[], revealIdx:0, answerIdx:0, scores:{},
+    guessOpen:false, guessStartTs:null, players:{}, guesses:{},
+  }).then(function() {
+    saveSession({ pid:myPid, sid:sessionId, mode:'host' });
+    if (unsubscribe) unsubscribe();
+    connectGame(sessionId);
+    initHostLobby();
+    show('pg-host-lobby');
+  });
 }
 
 /* ━━━━━━━━━ HOST: RENDER ━━━━━━━━━ */
@@ -570,11 +656,10 @@ function doStartReveal() {
 }
 
 function renderReveal() {
-  const order = G.order || [], players = G.players || {}, qs = G.questions || [];
-  const owner = order[G.revealIdx];
-  const p     = players[owner];
-  const ans   = (p && p.answers && p.answers[G.answerIdx]) || '';
-  const q     = qs[G.answerIdx] || '';
+  const order = G.order||[], players = G.players||{}, qs = G.questions||[];
+  const owner = order[G.revealIdx], p = players[owner];
+  const ans = (p && p.answers && p.answers[G.answerIdx]) || '';
+  const q   = qs[G.answerIdx] || '';
 
   document.getElementById('hr-pp').textContent  = `プレイヤー ${G.revealIdx+1}/${order.length}`;
   document.getElementById('hr-pq').textContent  = `Q${G.answerIdx+1}/${qs.length}`;
@@ -584,46 +669,46 @@ function renderReveal() {
 
   const nameEl = document.getElementById('hr-name'), avtEl = document.getElementById('hr-avt');
   if (G.guessOpen) {
-    nameEl.style.color = '#ffffff22'; nameEl.textContent = '?';
-    avtEl.innerHTML = '<div class="mystery">❓</div>';
-    document.getElementById('hr-pre').style.display   = 'none';
-    document.getElementById('hr-guess').style.display = 'block';
+    nameEl.style.color='#ffffff22'; nameEl.textContent='?';
+    avtEl.innerHTML='<div class="mystery">❓</div>';
+    document.getElementById('hr-pre').style.display='none';
+    document.getElementById('hr-guess').style.display='block';
     updateVotes(); startHostTimer();
   } else {
-    nameEl.style.color = '#fff'; nameEl.textContent = p ? p.name : '';
-    avtEl.innerHTML = p ? avt(p,60) : '';
-    document.getElementById('hr-pre').style.display   = 'flex';
-    document.getElementById('hr-guess').style.display = 'none';
+    nameEl.style.color='#fff'; nameEl.textContent=p?p.name:'';
+    avtEl.innerHTML=p?avt(p,60):'';
+    document.getElementById('hr-pre').style.display='flex';
+    document.getElementById('hr-guess').style.display='none';
     stopHostTimer();
   }
 }
 
 function updateVotes() {
-  const order = G.order || [], players = G.players || {}, guesses = G.guesses || {};
-  const owner = order[G.revealIdx];
-  const el = document.getElementById('hr-votes'); if (!el) return;
-  el.innerHTML = order.filter(id=>id!==owner).map(id => {
-    const p = players[id]; if (!p) return '';
-    const v = Object.values(guesses).filter(g=>g.targetId===id).length;
+  // ★ 全プレイヤーの票を表示
+  const order=G.order||[], players=G.players||{}, guesses=G.guesses||{};
+  const el=document.getElementById('hr-votes'); if(!el) return;
+  el.innerHTML = order.map(id => {
+    const p=players[id]; if(!p) return '';
+    const v=Object.values(guesses).filter(g=>g.targetId===id).length;
     return `<div class="vr" style="background:${p.color}18;border-color:${p.color}44;">
       ${avt(p,26)}<span style="color:#fff;font-size:14px;">${esc(p.name)}</span>
       <span style="background:${p.color}44;color:${p.color};border-radius:20px;padding:1px 9px;font-size:13px;font-weight:700;margin-left:auto;">${v}</span>
     </div>`;
   }).join('');
-  const gc = Object.keys(guesses).length, gt = order.filter(id=>id!==owner).length;
-  document.getElementById('hr-tt').textContent = `${gc}/${gt}人が回答済み`;
+  const gc=Object.keys(guesses).length, gt=order.length;
+  document.getElementById('hr-tt').textContent=`${gc}/${gt}人が回答済み`;
 }
 
 function startHostTimer() {
   stopHostTimer();
   hostTI = setInterval(function() {
     if (!G||!G.guessOpen||!G.guessStartTs) return;
-    const left = Math.max(0, GUESS_TIME-(Date.now()-G.guessStartTs)/1000);
-    const pct = (left/GUESS_TIME)*100, hue = pct>60?260:pct>30?38:0;
-    const fill = document.getElementById('hr-tf');
-    if (fill){ fill.style.width=pct+'%'; fill.style.background=`hsl(${hue},78%,62%)`; }
+    const left=Math.max(0,GUESS_TIME-(Date.now()-G.guessStartTs)/1000);
+    const pct=(left/GUESS_TIME)*100, hue=pct>60?260:pct>30?38:0;
+    const fill=document.getElementById('hr-tf');
+    if(fill){fill.style.width=pct+'%';fill.style.background=`hsl(${hue},78%,62%)`;}
     updateVotes();
-    if (left<=0) stopHostTimer();
+    if(left<=0) stopHostTimer();
   }, 400);
 }
 
@@ -634,11 +719,11 @@ function doOpenGuess() {
 
 function doCloseAndScore() {
   stopHostTimer();
-  const order = G.order || [], owner = order[G.revealIdx];
-  const guesses = G.guesses || {}, scores = Object.assign({}, G.scores || {});
+  const order=G.order||[], owner=order[G.revealIdx];
+  const guesses=G.guesses||{}, scores=Object.assign({},G.scores||{});
   Object.entries(guesses).forEach(function([gid,g]) {
     if (gid!==owner && g.targetId===owner) {
-      scores[gid] = (scores[gid]||0) + Math.round(MIN_PTS+(MAX_PTS-MIN_PTS)*(g.tl/GUESS_TIME));
+      scores[gid]=(scores[gid]||0)+Math.round(MIN_PTS+(MAX_PTS-MIN_PTS)*(g.tl/GUESS_TIME));
     }
   });
   gameRef.update({ guessOpen:false, guessStartTs:null, scores });
@@ -647,8 +732,8 @@ function doCloseAndScore() {
 
 function doNextAnswer() {
   stopHostTimer();
-  const qs = G.questions || [];
-  if (G.answerIdx+1 >= qs.length) {
+  const qs=G.questions||[];
+  if (G.answerIdx+1>=qs.length) {
     gameRef.update({ phase:'ranking', guessOpen:false, guessStartTs:null, guesses:{} });
     show('pg-host-ranking'); renderRanking();
   } else {
@@ -658,22 +743,22 @@ function doNextAnswer() {
 }
 
 function renderRanking() {
-  const order = G.order || [], players = G.players || {}, scores = G.scores || {};
-  const owner = players[order[G.revealIdx]];
-  const sorted = order.slice().sort((a,b)=>(scores[b]||0)-(scores[a]||0));
-  const isLast = G.revealIdx+1 >= order.length;
-  document.getElementById('rank-sub').innerHTML = owner
-    ? `${avt(owner,24)} <strong style="color:${owner.color}">${esc(owner.name)}</strong>さんの問題終了！` : '';
-  document.getElementById('rank-rows').innerHTML = sorted.map((id,i) => {
-    const p = players[id]; if (!p) return '';
+  const order=G.order||[], players=G.players||{}, scores=G.scores||{};
+  const owner=players[order[G.revealIdx]];
+  const sorted=order.slice().sort((a,b)=>(scores[b]||0)-(scores[a]||0));
+  const isLast=G.revealIdx+1>=order.length;
+  document.getElementById('rank-sub').innerHTML=owner
+    ?`${avt(owner,24)} <strong style="color:${owner.color}">${esc(owner.name)}</strong>さんの問題終了！`:'';
+  document.getElementById('rank-rows').innerHTML=sorted.map((id,i)=>{
+    const p=players[id]; if(!p) return '';
     return `<div class="rr ${i===0?'gold':''}"><span style="font-size:22px;width:30px;">${['🥇','🥈','🥉'][i]||`${i+1}.`}</span>${avt(p,42)}<span style="flex:1;color:#fff;font-weight:700;font-size:17px;text-align:left;">${esc(p.name)}</span><span style="font-weight:900;font-size:22px;color:${i===0?'#ffd700':p.color}">${scores[id]||0}<span style="font-size:12px;color:#ffffff44;">pt</span></span></div>`;
   }).join('');
-  document.getElementById('btn-next-p').textContent = isLast ? '🎊 最終結果へ' : '次のプレイヤーへ →';
+  document.getElementById('btn-next-p').textContent=isLast?'🎊 最終結果へ':'次のプレイヤーへ →';
 }
 
 function doNextPlayer() {
-  const order = G.order || [];
-  if (G.revealIdx+1 >= order.length) {
+  const order=G.order||[];
+  if (G.revealIdx+1>=order.length) {
     gameRef.update({ phase:'finished' });
     show('pg-host-finished'); renderFinished();
   } else {
@@ -683,165 +768,163 @@ function doNextPlayer() {
 }
 
 function renderFinished() {
-  const order = G.order || [], players = G.players || {}, scores = G.scores || {};
-  const sorted = order.slice().sort((a,b)=>(scores[b]||0)-(scores[a]||0));
-  document.getElementById('fin-rows').innerHTML = sorted.map((id,i) => {
-    const p = players[id]; if (!p) return '';
+  const order=G.order||[], players=G.players||{}, scores=G.scores||{};
+  const sorted=order.slice().sort((a,b)=>(scores[b]||0)-(scores[a]||0));
+  document.getElementById('fin-rows').innerHTML=sorted.map((id,i)=>{
+    const p=players[id]; if(!p) return '';
     return `<div class="rr ${i===0?'gold':''}" style="border-radius:16px;${i===0?'transform:scale(1.04);':''}"><span style="font-size:26px;width:34px;">${['🥇','🥈','🥉'][i]||`${i+1}.`}</span>${avt(p,50)}<span style="flex:1;color:#fff;font-weight:800;font-size:19px;text-align:left;">${esc(p.name)}</span><span style="font-weight:900;font-size:26px;color:${i===0?'#ffd700':p.color}">${scores[id]||0}<span style="font-size:13px;color:#ffffff44;">pt</span></span></div>`;
   }).join('');
 }
 
 /* ━━━━━━━━━ PLAYER: CONNECT ━━━━━━━━━ */
 function connectAsPlayer(sessionId) {
-  myMode = 'player';
+  myMode='player';
   show('pg-connecting');
-  document.getElementById('conn-title').textContent = 'ゲームに参加中…';
+  document.getElementById('conn-title').textContent='ゲームに参加中…';
 
   db.collection('games').doc(sessionId).get().then(function(snap) {
     if (!snap.exists) {
-      const errEl = document.getElementById('sid-err') || document.getElementById('conn-err');
-      errEl.style.display='block';
-      errEl.textContent = '❌ セッションID「'+sessionId+'」が見つかりません。\nホストがゲームを開始しているか確認してください。';
+      const e=document.getElementById('sid-err');
+      e.style.display='block';
+      e.textContent='❌ セッションID「'+sessionId+'」が見つかりません。';
       show('pg-enter-sid'); return;
     }
-    const data = snap.data();
-    pAnswers = new Array((data.questions||[]).length).fill('');
+    const data=snap.data();
+    pAnswers=new Array((data.questions||[]).length).fill('');
+    saveSession({ pid:myPid, sid:sessionId, mode:'player', joined:false, avatar:selAvatar, color:selColor, photoUrl, answers:[] });
     connectGame(sessionId);
     initJoinForm();
     show('pg-player-join');
+    bindButtons();
   }).catch(function(err) {
-    const e = document.getElementById('conn-err');
+    const e=document.getElementById('conn-err');
     e.style.display='block';
-    e.textContent = '❌ 接続エラー: ' + err.message;
+    e.textContent='❌ '+err.message;
   });
 }
 
 /* ━━━━━━━━━ PLAYER: RENDER ━━━━━━━━━ */
 function renderPlayer() {
   if (!G) return;
-  const me = G.players && G.players[myPid];
-  const phase = G.phase, qs = G.questions || [];
+  const me=G.players&&G.players[myPid];
+  const phase=G.phase, qs=G.questions||[];
 
-  if (phase === 'lobby') {
+  if (phase==='lobby') {
     if (!playerJoined) return;
     show('pg-pwait');
-    const others = Object.entries(G.players||{}).filter(([id])=>id!==myPid).map(([,p])=>p.name);
-    document.getElementById('pwl-others').textContent = others.length ? `他の参加者: ${others.join('、')}` : '';
+    const others=Object.entries(G.players||{}).filter(([id])=>id!==myPid).map(([,p])=>p.name);
+    document.getElementById('pwl-others').textContent=others.length?`他の参加者: ${others.join('、')}`:'';
     return;
   }
-  if (phase === 'answering') {
-    const myAns = (me && me.answers) || [];
-    const done = myAns.length===qs.length && myAns.every(a=>a&&a.trim());
+  if (phase==='answering') {
+    const myAns=(me&&me.answers)||[];
+    const done=myAns.length===qs.length&&myAns.every(a=>a&&a.trim());
     if (done) { show('pg-answered'); return; }
     if (!ansPageReady) { ansPageReady=true; show('pg-answering'); renderAnswerForm(qs); }
     return;
   }
-  if (phase === 'reveal')   { renderGuessPage(); return; }
-  if (phase === 'ranking')  { show('pg-pranking'); document.getElementById('prs').textContent=(G.scores&&G.scores[myPid])||0; return; }
-  if (phase === 'finished') { show('pg-pfin');    document.getElementById('pfs').textContent=(G.scores&&G.scores[myPid])||0; return; }
+  if (phase==='reveal')   { renderGuessPage(); return; }
+  if (phase==='ranking')  { show('pg-pranking'); document.getElementById('prs').textContent=(G.scores&&G.scores[myPid])||0; return; }
+  if (phase==='finished') { show('pg-pfin');    document.getElementById('pfs').textContent=(G.scores&&G.scores[myPid])||0; return; }
 }
 
-/* ━━━━━━━━━ PLAYER: JOIN ━━━━━━━━━ */
+/* ━━━━━━━━━ PLAYER: JOIN FORM ━━━━━━━━━ */
 function initJoinForm() {
-  const eg = document.getElementById('pj-emoji');
-  eg.innerHTML = AVATARS.map(av =>
+  const eg=document.getElementById('pj-emoji');
+  eg.innerHTML=AVATARS.map(av=>
     `<button class="eb ${av===selAvatar?'on':''}" data-av="${av}">${av}</button>`).join('');
-  eg.addEventListener('click', function(e) {
-    const b = e.target.closest('.eb'); if(!b) return;
+  eg.addEventListener('click',function(e){
+    const b=e.target.closest('.eb'); if(!b) return;
     selAvatar=b.dataset.av; photoUrl=null;
-    document.querySelectorAll('.eb').forEach(x=>x.classList.toggle('on', x.dataset.av===selAvatar));
+    document.querySelectorAll('.eb').forEach(x=>x.classList.toggle('on',x.dataset.av===selAvatar));
     document.getElementById('pj-photo-prev').style.display='none';
     updatePrev();
   });
-  const cg = document.getElementById('pj-colors');
-  cg.innerHTML = COLORS.map(c =>
+  const cg=document.getElementById('pj-colors');
+  cg.innerHTML=COLORS.map(c=>
     `<button class="cd ${c===selColor?'on':''}" data-c="${c}" style="background:${c};"></button>`).join('');
-  cg.addEventListener('click', function(e) {
-    const b = e.target.closest('.cd'); if(!b) return;
+  cg.addEventListener('click',function(e){
+    const b=e.target.closest('.cd'); if(!b) return;
     selColor=b.dataset.c;
-    document.querySelectorAll('.cd').forEach(x=>x.classList.toggle('on', x.dataset.c===selColor));
+    document.querySelectorAll('.cd').forEach(x=>x.classList.toggle('on',x.dataset.c===selColor));
     updatePrev();
   });
   updatePrev();
 }
 
 function handlePhoto(e) {
-  const file = e.target.files&&e.target.files[0]; if(!file) return;
-  const r = new FileReader();
-  r.onload = function(ev) {
-    compressPhoto(ev.target.result, function(c){ photoUrl=c; document.getElementById('pj-photo-img').src=c; document.getElementById('pj-photo-prev').style.display='flex'; updatePrev(); });
-  };
+  const file=e.target.files&&e.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=function(ev){ compressPhoto(ev.target.result,function(c){ photoUrl=c; document.getElementById('pj-photo-img').src=c; document.getElementById('pj-photo-prev').style.display='flex'; updatePrev(); }); };
   r.readAsDataURL(file);
 }
 
-function removePhoto() { photoUrl=null; document.getElementById('pj-photo-prev').style.display='none'; updatePrev(); }
+function removePhoto(){ photoUrl=null; document.getElementById('pj-photo-prev').style.display='none'; updatePrev(); }
 
 function updatePrev() {
-  const pa = document.getElementById('pj-avt-prev');
-  if (photoUrl) { pa.innerHTML=`<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`; }
-  else { pa.textContent=selAvatar; pa.style.background=selColor+'22'; }
-  pa.style.borderColor = selColor;
-  const ok = document.getElementById('pj-name').value.trim().length > 0;
-  const btn = document.getElementById('btn-join');
+  const pa=document.getElementById('pj-avt-prev');
+  if(photoUrl){pa.innerHTML=`<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`;}
+  else{pa.textContent=selAvatar; pa.style.background=selColor+'22';}
+  pa.style.borderColor=selColor;
+  const ok=document.getElementById('pj-name').value.trim().length>0;
+  const btn=document.getElementById('btn-join');
   btn.disabled=!ok; btn.style.opacity=ok?'1':'.3';
 }
 
 function doJoin() {
-  const name = document.getElementById('pj-name').value.trim(); if (!name) return;
-  playerJoined = true;
-  // Firestore dot-notation to write only this player's entry
+  const name=document.getElementById('pj-name').value.trim(); if(!name) return;
+  playerJoined=true;
+  saveSession({ pid:myPid, sid, mode:'player', joined:true, avatar:selAvatar, color:selColor, photoUrl, answers:pAnswers });
   gameRef.update({ [`players.${myPid}`]: { name, avatar:selAvatar, color:selColor, photoUrl:photoUrl||null, answers:[] } });
   show('pg-pwait');
-  document.getElementById('pwl-me').innerHTML =
+  document.getElementById('pwl-me').innerHTML=
     `<span class="avt" style="width:44px;height:44px;font-size:22px;border:2px solid ${selColor};background:${selColor}22;overflow:hidden;">${photoUrl?`<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`:selAvatar}</span><span style="color:${selColor};font-weight:700;font-size:18px;">${esc(name)}</span>`;
 }
 
 /* ━━━━━━━━━ PLAYER: ANSWERING ━━━━━━━━━ */
 function renderAnswerForm(qs) {
-  if (pAnswers.length!==qs.length) pAnswers=new Array(qs.length).fill('');
-  document.getElementById('pa-qlist').innerHTML = qs.map((q,i) =>
+  if(pAnswers.length!==qs.length) pAnswers=new Array(qs.length).fill('');
+  document.getElementById('pa-qlist').innerHTML=qs.map((q,i)=>
     `<div class="card" style="margin-bottom:12px;"><label style="color:#9d8fcc;font-size:14px;display:block;margin-bottom:8px;"><span class="qb">Q${i+1}</span>${esc(q)}</label><textarea rows="2" placeholder="あなたの答えを入力…" maxlength="80" id="pa-a${i}">${esc(pAnswers[i]||'')}</textarea></div>`).join('');
-  qs.forEach((_,i) => { document.getElementById('pa-a'+i).addEventListener('input', function(e){ pAnswers[i]=e.target.value; checkAnsBtn(); }); });
+  qs.forEach((_,i)=>{ document.getElementById('pa-a'+i).addEventListener('input',function(e){ pAnswers[i]=e.target.value; saveSession({ pid:myPid, sid, mode:'player', joined:true, avatar:selAvatar, color:selColor, photoUrl, answers:pAnswers }); checkAnsBtn(); }); });
   checkAnsBtn();
 }
 
-function checkAnsBtn() {
-  const ok = pAnswers.every(a=>a&&a.trim());
-  const btn = document.getElementById('btn-submit-ans');
+function checkAnsBtn(){
+  const ok=pAnswers.every(a=>a&&a.trim());
+  const btn=document.getElementById('btn-submit-ans');
   btn.disabled=!ok; btn.style.opacity=ok?'1':'.3';
 }
 
-function doSubmitAnswers() {
-  if (!pAnswers.every(a=>a&&a.trim())) return;
-  gameRef.update({ [`players.${myPid}.answers`]: pAnswers });
+function doSubmitAnswers(){
+  if(!pAnswers.every(a=>a&&a.trim())) return;
+  gameRef.update({ [`players.${myPid}.answers`]:pAnswers });
   show('pg-answered');
 }
 
 /* ━━━━━━━━━ PLAYER: GUESS ━━━━━━━━━ */
-function renderGuessPage() {
-  const order = G.order||[], players = G.players||{}, qs = G.questions||[];
-  const revKey = G.revealIdx+'-'+G.answerIdx;
-  if (prevRevKey!==revKey) { gSubmitted=false; gTarget=null; prevRevKey=revKey; stopPlayerTimer(); }
+function renderGuessPage(){
+  const order=G.order||[], players=G.players||{}, qs=G.questions||[];
+  const revKey=G.revealIdx+'-'+G.answerIdx;
+  if(prevRevKey!==revKey){ gSubmitted=false; gTarget=null; prevRevKey=revKey; stopPlayerTimer(); }
 
-  const owner = order[G.revealIdx], isMe = owner===myPid;
-  const ans = (players[owner]&&players[owner].answers&&players[owner].answers[G.answerIdx])||'';
-  const q   = qs[G.answerIdx]||'';
+  const owner=order[G.revealIdx];
+  const ans=(players[owner]&&players[owner].answers&&players[owner].answers[G.answerIdx])||'';
+  const q=qs[G.answerIdx]||'';
 
   show('pg-guess');
-  document.getElementById('pg-pq').textContent  = `Q${G.answerIdx+1}/${qs.length}`;
-  document.getElementById('pg-pp').textContent  = `プレイヤー${G.revealIdx+1}/${order.length}`;
-  document.getElementById('pg-qt').textContent  = q;
-  document.getElementById('pg-ans').textContent = `「${ans}」`;
+  document.getElementById('pg-pq').textContent=`Q${G.answerIdx+1}/${qs.length}`;
+  document.getElementById('pg-pp').textContent=`プレイヤー${G.revealIdx+1}/${order.length}`;
+  document.getElementById('pg-qt').textContent=q;
+  document.getElementById('pg-ans').textContent=`「${ans}」`;
 
-  ['pg-mine','pg-wait','pg-sent','pg-opts'].forEach(id=>document.getElementById(id).style.display='none');
+  ['pg-wait','pg-sent','pg-opts'].forEach(id=>document.getElementById(id).style.display='none');
 
-  if (isMe) {
-    document.getElementById('pg-mine').style.display='block'; stopPlayerTimer();
-  } else if (!G.guessOpen) {
+  if(!G.guessOpen){
     document.getElementById('pg-wait').style.display='block'; stopPlayerTimer();
-  } else if (gSubmitted) {
+  } else if(gSubmitted){
     document.getElementById('pg-sent').style.display='block';
-    if (gTarget&&players[gTarget]) {
+    if(gTarget&&players[gTarget]){
       const gp=players[gTarget];
       document.getElementById('pg-myg').innerHTML=`<div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;background:${gp.color}18;border:1.5px solid ${gp.color}44;border-radius:12px;">${avt(gp,32)}<span style="color:${gp.color};font-weight:700;">${esc(gp.name)}さんだと思った！</span></div>`;
     }
@@ -849,33 +932,34 @@ function renderGuessPage() {
   } else {
     document.getElementById('pg-opts').style.display='block';
     startPlayerTimer();
-    const btns = document.getElementById('pg-btns');
-    btns.innerHTML = order.filter(id=>id!==owner).map(id=>{
+    const btns=document.getElementById('pg-btns');
+    // ★ 自分以外の全員を選択肢として表示（回答者も含む）
+    btns.innerHTML=order.filter(id=>id!==myPid).map(id=>{
       const gp=players[id]; if(!gp) return '';
       return `<button class="gb" style="border-color:${gp.color}66;color:${gp.color};" data-t="${id}">${avt(gp,40)}<span style="font-weight:700;font-size:16px;">${esc(gp.name)}</span></button>`;
     }).join('');
-    btns.onclick = function(e){ const b=e.target.closest('.gb'); if(!b) return; btns.onclick=null; doSubmitGuess(b.dataset.t); };
+    btns.onclick=function(e){ const b=e.target.closest('.gb'); if(!b) return; btns.onclick=null; doSubmitGuess(b.dataset.t); };
   }
 }
 
-function startPlayerTimer() {
+function startPlayerTimer(){
   stopPlayerTimer();
-  playerTI = setInterval(function() {
-    if (!G||!G.guessOpen||!G.guessStartTs) return;
+  playerTI=setInterval(function(){
+    if(!G||!G.guessOpen||!G.guessStartTs) return;
     const left=Math.max(0,GUESS_TIME-(Date.now()-G.guessStartTs)/1000);
     const pct=(left/GUESS_TIME)*100, hue=pct>60?260:pct>30?38:0;
     const fill=document.getElementById('pg-tf'), txt=document.getElementById('pg-tt');
     if(fill){fill.style.width=pct+'%';fill.style.background=`hsl(${hue},78%,62%)`;}
     if(txt) txt.textContent=`⏱ ${Math.ceil(left)}秒 — 誰の回答？`;
     if(left<=0) stopPlayerTimer();
-  }, 250);
+  },250);
 }
 
-function doSubmitGuess(targetId) {
-  if (gSubmitted) return;
-  const tl = G.guessStartTs ? Math.max(0,GUESS_TIME-(Date.now()-G.guessStartTs)/1000) : 0;
+function doSubmitGuess(targetId){
+  if(gSubmitted) return;
+  const tl=G.guessStartTs?Math.max(0,GUESS_TIME-(Date.now()-G.guessStartTs)/1000):0;
   gSubmitted=true; gTarget=targetId;
-  gameRef.update({ [`guesses.${myPid}`]: { targetId, tl } });
+  gameRef.update({ [`guesses.${myPid}`]:{targetId,tl} });
   renderGuessPage();
 }
 </script>
