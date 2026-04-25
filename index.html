@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>だれの回答？</title>
+<title>Guess who？</title>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
@@ -71,7 +71,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 <div id="pg-landing" class="page show">
   <div class="z1 center" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;">
     <div style="font-size:88px;filter:drop-shadow(0 0 40px #a29bfeaa);">🎭</div>
-    <h1 style="font-size:48px;font-weight:900;text-shadow:0 0 60px #a29bfe55;letter-spacing:-2px;margin:8px 0 12px;">だれの回答？</h1>
+    <h1 style="font-size:48px;font-weight:900;text-shadow:0 0 60px #a29bfe55;letter-spacing:-2px;margin:8px 0 12px;">Guess who？</h1>
     <p class="sub">質問への回答を見て誰が答えたかを当てるパーティーゲーム。速く当てるほど高得点！</p>
     <div style="display:flex;flex-direction:column;gap:14px;align-items:center;width:100%;max-width:300px;">
       <button class="btn btn-p" id="btn-host">📺 ホストとして始める</button>
@@ -108,7 +108,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 <!-- HOST LOBBY -->
 <div id="pg-host-lobby" class="page">
   <div class="hdr">
-    <span class="hdr-logo">🎭 だれの回答？</span>
+    <span class="hdr-logo">🎭 Guess who？</span>
     <div style="display:flex;gap:10px;align-items:center;">
       <span class="sid-b">ID: <b id="h-sid"></b></span>
       <span class="pill">参加者募集中</span>
@@ -147,7 +147,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 
 <!-- HOST ANSWERING -->
 <div id="pg-host-answering" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 だれの回答？</span><span class="pill">回答入力中</span></div>
+  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">回答入力中</span></div>
   <div class="z1 center">
     <div class="big-h">📝 みんなで回答を入力しよう！</div>
     <p class="sub">スマホで全員が回答するまで待ちます</p>
@@ -159,7 +159,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 <!-- HOST REVEAL -->
 <div id="pg-host-reveal" class="page">
   <div class="hdr">
-    <span class="hdr-logo">🎭 だれの回答？</span>
+    <span class="hdr-logo">🎭 Guess who？</span>
     <div style="display:flex;gap:10px;align-items:center;">
       <span class="sid-b">ID: <b id="hr-sid"></b></span>
       <span class="pill">推理タイム 🔍</span>
@@ -194,7 +194,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 
 <!-- HOST RANKING -->
 <div id="pg-host-ranking" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 だれの回答？</span><span class="pill">ランキング 🏆</span></div>
+  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">ランキング 🏆</span></div>
   <div class="z1" style="max-width:580px;margin:0 auto;padding:36px 20px;text-align:center;">
     <div style="font-size:64px;margin-bottom:8px;">🏆</div>
     <div class="big-h">ランキング</div>
@@ -206,7 +206,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 
 <!-- HOST FINISHED -->
 <div id="pg-host-finished" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 だれの回答？</span><span class="pill">ゲーム終了 🎊</span></div>
+  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">ゲーム終了 🎊</span></div>
   <div class="z1" style="max-width:580px;margin:0 auto;padding:36px 20px;text-align:center;">
     <div style="font-size:88px;margin-bottom:8px;">🎊</div>
     <div class="big-h">ゲーム終了！最終ランキング</div>
