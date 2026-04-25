@@ -47,7 +47,6 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 .ans-box p{font-size:30px;font-weight:900;text-shadow:0 0 30px #a29bfe88;line-height:1.4;}
 .prog{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
 .prog span{background:#a29bfe1a;color:#c8b6ff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
-.prog span.b{background:#fd79a81a;color:#ffb3cc;}
 .eg{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
 .eb{font-size:24px;width:42px;height:42px;border-radius:50%;background:transparent;border:2px solid transparent;cursor:pointer;transition:all .1s;}
 .eb.on{background:#a29bfe28;border-color:#a29bfe;}
@@ -56,12 +55,91 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
 .cd.on{border-color:#fff;}
 .avt{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;vertical-align:middle;flex-shrink:0;}
 .avt img{width:100%;height:100%;object-fit:cover;}
-.mystery{width:60px;height:60px;border-radius:50%;background:#ffffff0a;border:2px dashed #ffffff22;display:flex;align-items:center;justify-content:center;font-size:28px;}
+.mystery-box{width:70px;height:70px;border-radius:50%;background:#ffffff0a;border:3px dashed #a29bfe44;display:flex;align-items:center;justify-content:center;font-size:32px;}
 .vr{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;border:1.5px solid;margin:4px;}
 .gb{display:flex;align-items:center;gap:12px;padding:13px 16px;background:transparent;border:2px solid;border-radius:14px;cursor:pointer;font-family:inherit;width:100%;margin-bottom:10px;transition:filter .1s;}
 .gb:hover{filter:brightness(1.2);}
 .err-box{background:#e0507a18;border:1px solid #e0507a55;border-radius:12px;padding:14px;color:#ffb3c8;font-size:14px;white-space:pre-wrap;margin-top:12px;max-width:420px;}
-@media(max-width:600px){.ans-box p{font-size:22px;}.lobby{padding:14px;}.big-h{font-size:24px;}.btn{font-size:15px;padding:12px 18px;}}
+
+/* ── ANIMATIONS ── */
+@keyframes flyUp {
+  from{opacity:0;transform:translateY(60px) scale(0.8);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+@keyframes popIn {
+  0%{opacity:0;transform:scale(0.3) rotate(-8deg);}
+  60%{transform:scale(1.12) rotate(2deg);}
+  100%{opacity:1;transform:scale(1) rotate(0);}
+}
+@keyframes glow {
+  0%,100%{box-shadow:0 0 20px #a29bfe44;}
+  50%{box-shadow:0 0 50px #a29bfeaa,0 0 80px #a29bfe44;}
+}
+@keyframes shimmer {
+  from{background-position:200% center;}
+  to{background-position:-200% center;}
+}
+@keyframes confetti-fall {
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(80px) rotate(360deg);opacity:0;}
+}
+.fly-card {
+  opacity:0;
+  animation:flyUp 0.55s cubic-bezier(.22,.68,0,1.15) forwards;
+}
+.pop-in {
+  animation:popIn 0.6s cubic-bezier(.22,.68,0,1.2) forwards;
+}
+.identity-reveal {
+  animation:popIn 0.7s cubic-bezier(.22,.68,0,1.2) forwards;
+  display:inline-block;
+}
+.glow-card {
+  animation:glow 2s ease-in-out infinite;
+}
+.shimmer-text {
+  background:linear-gradient(90deg,#a29bfe,#fd79a8,#ffd700,#a29bfe);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shimmer 2s linear infinite;
+}
+
+/* All Ready screen */
+.ready-grid {
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  justify-content:center;
+  padding:20px 24px;
+  max-width:1100px;
+  margin:0 auto;
+}
+.ready-card {
+  background:linear-gradient(135deg,#1e1550,#13112a);
+  border:1.5px solid #a29bfe33;
+  border-radius:18px;
+  padding:18px 22px;
+  width:280px;
+  opacity:0;
+}
+.ready-card .rc-q {
+  color:#a29bfe;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:6px;
+}
+.ready-card .rc-ans {
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  text-shadow:0 0 20px #a29bfe66;
+  line-height:1.4;
+}
+
+@media(max-width:600px){.ans-box p{font-size:22px;}.lobby{padding:14px;}.big-h{font-size:24px;}.btn{font-size:15px;padding:12px 18px;}.ready-card{width:100%;}}
 </style>
 </head>
 <body>
@@ -86,7 +164,6 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
   <div class="z1 center" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;">
     <div style="font-size:64px;margin-bottom:16px;">🔗</div>
     <div class="big-h" id="conn-title">接続中…</div>
-    <p class="sub" id="conn-sub">しばらくお待ちください</p>
     <div id="conn-err" class="err-box" style="display:none;"></div>
   </div>
 </div>
@@ -150,9 +227,21 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
   <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">回答入力中</span></div>
   <div class="z1 center">
     <div class="big-h">📝 みんなで回答を入力しよう！</div>
-    <p class="sub">スマホで全員が回答するまで待ちます</p>
-    <div id="ha-plist" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:36px;"></div>
-    <button class="btn btn-p" id="btn-start-reveal" disabled style="max-width:320px;">全員完了！発表スタート →</button>
+    <p class="sub">全員がスマホで回答したら自動的に次へ進みます</p>
+    <div id="ha-plist" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;"></div>
+  </div>
+</div>
+
+<!-- HOST ALL READY (animated answer reveal) -->
+<div id="pg-host-allready" class="page">
+  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">全員回答完了！🎉</span></div>
+  <div class="z1" style="text-align:center;padding:32px 20px 20px;">
+    <h2 class="shimmer-text" style="font-size:36px;font-weight:900;margin-bottom:6px;">全員の回答が出揃いました！</h2>
+    <p style="color:#9d8fcc;margin-bottom:28px;">誰の回答か当てられるかな？</p>
+  </div>
+  <div id="ready-grid" class="ready-grid"></div>
+  <div id="ready-start-wrap" style="text-align:center;padding:28px;display:none;">
+    <button class="btn btn-a" id="btn-start-reveal" style="font-size:20px;padding:18px 48px;">🎯 発表スタート！</button>
   </div>
 </div>
 
@@ -162,45 +251,41 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
     <span class="hdr-logo">🎭 Guess who？</span>
     <div style="display:flex;gap:10px;align-items:center;">
       <span class="sid-b">ID: <b id="hr-sid"></b></span>
-      <span class="pill">推理タイム 🔍</span>
+      <span class="pill" id="hr-pill">推理タイム 🔍</span>
     </div>
   </div>
   <div class="z1" style="max-width:820px;margin:0 auto;padding:28px 20px;text-align:center;">
-    <div class="prog"><span id="hr-pp">プレイヤー 1/1</span><span class="b" id="hr-pq">Q1/3</span></div>
-    <div class="ctr" style="margin-bottom:20px;gap:16px;">
-      <div id="hr-avt"></div>
-      <div style="text-align:left;">
-        <div style="color:#ffffff44;font-size:12px;">この回答の主は…</div>
-        <div id="hr-name" style="font-weight:800;font-size:26px;transition:color .5s;">?</div>
-      </div>
+    <div class="prog">
+      <span id="hr-prog">1/1</span>
     </div>
+
+    <!-- Identity area -->
+    <div id="hr-identity-area" style="margin-bottom:22px;min-height:90px;display:flex;align-items:center;justify-content:center;gap:16px;">
+      <!-- filled by JS -->
+    </div>
+
     <div class="card" style="background:#1a1040;margin-bottom:12px;">
       <p style="color:#8b80c8;font-size:12px;margin-bottom:4px;" id="hr-ql"></p>
       <p id="hr-qt" style="color:#e0d6ff;font-size:19px;font-weight:700;"></p>
     </div>
-    <div class="ans-box"><p id="hr-ans"></p></div>
+    <div class="ans-box glow-card"><p id="hr-ans"></p></div>
+
+    <!-- Pre-guess controls -->
     <div id="hr-pre" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
       <button class="btn btn-a" id="btn-open-guess">🤔 推理タイムスタート！</button>
-      <button class="btn btn-g" id="btn-skip" style="width:auto;">次の質問へスキップ →</button>
+      <button class="btn btn-g" id="btn-skip" style="width:auto;">スキップ →</button>
     </div>
+    <!-- Guessing controls -->
     <div id="hr-guess" style="display:none;">
       <div class="t-track"><div id="hr-tf" class="t-fill" style="width:100%;background:hsl(260,78%,62%);"></div></div>
       <p id="hr-tt" style="color:#9d8fcc;margin-bottom:16px;"></p>
       <div id="hr-votes" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;"></div>
-      <button class="btn btn-a" id="btn-reveal">正解を発表する！🎯</button>
+      <button class="btn btn-a" id="btn-close-guess">正解を発表する！🎯</button>
     </div>
-  </div>
-</div>
-
-<!-- HOST RANKING -->
-<div id="pg-host-ranking" class="page">
-  <div class="hdr"><span class="hdr-logo">🎭 Guess who？</span><span class="pill">ランキング 🏆</span></div>
-  <div class="z1" style="max-width:580px;margin:0 auto;padding:36px 20px;text-align:center;">
-    <div style="font-size:64px;margin-bottom:8px;">🏆</div>
-    <div class="big-h">ランキング</div>
-    <p id="rank-sub" class="sub"></p>
-    <div id="rank-rows"></div>
-    <button class="btn btn-p" id="btn-next-p" style="max-width:300px;margin-top:20px;"></button>
+    <!-- Post-reveal controls -->
+    <div id="hr-post" style="display:none;">
+      <button class="btn btn-p" id="btn-next-reveal" style="margin-top:16px;max-width:300px;">次の回答へ →</button>
+    </div>
   </div>
 </div>
 
@@ -241,7 +326,7 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
   </div>
 </div>
 
-<!-- PLAYER WAIT LOBBY -->
+<!-- PLAYER WAIT -->
 <div id="pg-pwait" class="page">
   <div class="z1 center"><div style="font-size:64px;margin-bottom:14px;">⏳</div>
     <div class="big-h">ホストの開始を待っています</div>
@@ -267,10 +352,19 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
   </div>
 </div>
 
+<!-- PLAYER ALL READY WAIT -->
+<div id="pg-player-allready" class="page">
+  <div class="z1 center">
+    <div style="font-size:72px;margin-bottom:14px;">🎉</div>
+    <div class="big-h">全員の回答が揃いました！</div>
+    <p class="sub">発表が始まります。大画面を見てください！</p>
+  </div>
+</div>
+
 <!-- PLAYER GUESS -->
 <div id="pg-guess" class="page">
   <div class="z1" style="max-width:440px;margin:0 auto;padding:20px 16px;">
-    <div class="prog"><span id="pg-pq">Q1/3</span><span class="b" id="pg-pp">プレイヤー1/1</span></div>
+    <div class="prog"><span id="pg-prog" style="background:#a29bfe1a;color:#c8b6ff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;"></span></div>
     <div class="card" style="background:#13102e;margin-bottom:12px;">
       <p style="color:#6b5fa8;font-size:12px;margin-bottom:5px;">質問</p>
       <p id="pg-qt" style="color:#d0c8f0;font-weight:700;font-size:16px;"></p>
@@ -286,17 +380,6 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
   </div>
 </div>
 
-<!-- PLAYER RANKING WAIT -->
-<div id="pg-pranking" class="page">
-  <div class="z1 center"><div style="font-size:64px;margin-bottom:14px;">🏆</div>
-    <div class="big-h">ランキング発表中！</div><p class="sub">大画面を見てください</p>
-    <div style="background:#a29bfe18;border:1px solid #a29bfe33;border-radius:12px;padding:12px 24px;display:inline-block;margin-top:8px;">
-      <p style="color:#9d8fcc;font-size:13px;margin-bottom:4px;">あなたのスコア</p>
-      <span id="prs" style="color:#ffd700;font-weight:900;font-size:28px;">0</span><span style="color:#ffffff44;font-size:14px;">pt</span>
-    </div>
-  </div>
-</div>
-
 <!-- PLAYER FINISHED -->
 <div id="pg-pfin" class="page">
   <div class="z1 center"><div style="font-size:64px;margin-bottom:14px;">🎊</div>
@@ -305,389 +388,421 @@ input:focus,textarea:focus{border-color:#a29bfe;}textarea{resize:none;}
       <p style="color:#9d8fcc;font-size:13px;margin-bottom:4px;">最終スコア</p>
       <span id="pfs" style="color:#ffd700;font-weight:900;font-size:32px;">0</span><span style="color:#ffffff44;font-size:14px;">pt</span>
     </div>
-    <br/>
-    <button class="btn btn-g" id="btn-player-replay" style="max-width:280px;margin-top:20px;">もう一度参加する</button>
+    <br/><button class="btn btn-g" id="btn-player-replay" style="max-width:280px;margin-top:20px;">もう一度参加する</button>
   </div>
 </div>
 
 <script>
 'use strict';
 
-/* ━━━━━━━━━ FIREBASE ━━━━━━━━━ */
+/* ━━━━ FIREBASE ━━━━ */
 const firebaseConfig = {
-  apiKey: "AIzaSyB1G-Ax35ozT5a5Ji0TAZHOrxT3XfIYEig",
-  authDomain: "guessgame-31c5d.firebaseapp.com",
-  projectId: "guessgame-31c5d",
-  storageBucket: "guessgame-31c5d.firebasestorage.app",
-  messagingSenderId: "398977500968",
-  appId: "1:398977500968:web:3bc2717f9024406c4fb21d",
+  apiKey:"AIzaSyB1G-Ax35ozT5a5Ji0TAZHOrxT3XfIYEig",
+  authDomain:"guessgame-31c5d.firebaseapp.com",
+  projectId:"guessgame-31c5d",
+  storageBucket:"guessgame-31c5d.firebasestorage.app",
+  messagingSenderId:"398977500968",
+  appId:"1:398977500968:web:3bc2717f9024406c4fb21d",
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ━━━━━━━━━ CONSTANTS ━━━━━━━━━ */
-const GUESS_TIME = 20, MAX_PTS = 500, MIN_PTS = 50;
-const SESS_KEY = 'wsit_session_v2';
-const AVATARS = ['🐼','🦊','🐸','🐳','🦁','🐧','🦋','🐙','🦄','🐺','🦖','🐝','🦅','🐠','🦔','🐯','🦒','🐻','🐨','🦘'];
-const COLORS  = ['#FF6B9D','#FFB347','#4ECDC4','#A29BFE','#55EFC4','#FD79A8','#74B9FF','#FFEAA7','#FF7675','#00CEC9','#6C5CE7','#E17055'];
-const SAMPLE_QS = [
+/* ━━━━ CONSTANTS ━━━━ */
+const GUESS_TIME=20, MAX_PTS=500, MIN_PTS=50;
+const SESS_KEY='wsit_v3';
+const AVATARS=['🐼','🦊','🐸','🐳','🦁','🐧','🦋','🐙','🦄','🐺','🦖','🐝','🦅','🐠','🦔','🐯','🦒','🐻','🐨','🦘'];
+const COLORS=['#FF6B9D','#FFB347','#4ECDC4','#A29BFE','#55EFC4','#FD79A8','#74B9FF','#FFEAA7','#FF7675','#00CEC9','#6C5CE7','#E17055'];
+const SAMPLE_QS=[
   '子供の頃の将来の夢は何でしたか？','無人島に1つだけ持っていくなら？',
   'もし動物に生まれ変わるとしたら何？','人生で一番恥ずかしかった出来事は？',
   '隠れた特技や才能はありますか？','今まで食べた中で一番おいしかったものは？',
   '宝くじで1億当たったら最初に何をする？','タイムマシンがあったらいつに行く？',
 ];
 
-/* ━━━━━━━━━ SESSION PERSISTENCE ━━━━━━━━━ */
-function loadSession() {
-  try { return JSON.parse(localStorage.getItem(SESS_KEY)) || {}; } catch(e) { return {}; }
-}
-function saveSession(obj) {
-  try { localStorage.setItem(SESS_KEY, JSON.stringify(obj)); } catch(e) {}
-}
-function clearSession() {
-  try { localStorage.removeItem(SESS_KEY); } catch(e) {}
-}
+/* ━━━━ SESSION ━━━━ */
+function loadSess(){try{return JSON.parse(localStorage.getItem(SESS_KEY))||{};}catch{return {};}}
+function saveSess(o){try{localStorage.setItem(SESS_KEY,JSON.stringify(o));}catch{}}
+function clearSess(){try{localStorage.removeItem(SESS_KEY);}catch{}}
 
-/* ━━━━━━━━━ STATE ━━━━━━━━━ */
-let G = null, myMode = null, sid = null, gameRef = null, unsubscribe = null;
-let hostTI = null, playerTI = null;
+/* ━━━━ STATE ━━━━ */
+let G=null, myMode=null, sid=null, gameRef=null, unsub=null;
+let hostTI=null, playerTI=null;
+// Host-local state
+let identityRevealed=false, lastRevealIdx=-1;
+// Player state
+const _s=loadSess();
+const myPid=_s.pid||('p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5));
+let selAvatar=_s.avatar||AVATARS[0], selColor=_s.color||COLORS[3], photoUrl=_s.photoUrl||null;
+let playerJoined=_s.joined||false, pAnswers=_s.answers||[];
+let gSubmitted=false, gTarget=null, prevRevKey='';
+let ansPageReady=false;
 
-// Restore or create myPid
-const _sess = loadSession();
-const myPid = _sess.pid || ('p' + Date.now().toString(36) + Math.random().toString(36).slice(2,5));
-
-let selAvatar    = _sess.avatar  || AVATARS[0];
-let selColor     = _sess.color   || COLORS[3];
-let photoUrl     = _sess.photoUrl|| null;
-let playerJoined = _sess.joined  || false;
-let pAnswers     = _sess.answers || [];
-let gSubmitted = false, gTarget = null, prevRevKey = '';
-let ansPageReady = false;
-
-/* ━━━━━━━━━ HELPERS ━━━━━━━━━ */
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-function avt(p, sz) {
-  sz = sz||44;
-  const st = `width:${sz}px;height:${sz}px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:${Math.floor(sz*.52)}px;background:${p.color}22;border:2px solid ${p.color}55;flex-shrink:0;overflow:hidden;vertical-align:middle;`;
-  if (p.photoUrl) return `<span class="avt" style="${st}"><img src="${esc(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover;"/></span>`;
+/* ━━━━ HELPERS ━━━━ */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function avt(p,sz){
+  sz=sz||44;
+  const st=`width:${sz}px;height:${sz}px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:${Math.floor(sz*.52)}px;background:${p.color}22;border:2px solid ${p.color}55;flex-shrink:0;overflow:hidden;vertical-align:middle;`;
+  if(p.photoUrl) return `<span class="avt" style="${st}"><img src="${esc(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover;"/></span>`;
   return `<span class="avt" style="${st}">${p.avatar||'😀'}</span>`;
 }
-
-function show(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  const el = document.getElementById(id);
-  if (el) el.classList.add('show');
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+  const el=document.getElementById(id);
+  if(el) el.classList.add('show');
 }
-
-function mkSid(){ return Math.random().toString(36).slice(2,8).toUpperCase(); }
-
-function compressPhoto(dataUrl, cb) {
-  const img = new Image();
-  img.onload = function() {
-    const c = document.createElement('canvas'); c.width = c.height = 72;
-    c.getContext('2d').drawImage(img, (img.width-Math.min(img.width,img.height))/2, (img.height-Math.min(img.width,img.height))/2, Math.min(img.width,img.height), Math.min(img.width,img.height), 0, 0, 72, 72);
-    cb(c.toDataURL('image/jpeg', 0.55));
+function mkSid(){return Math.random().toString(36).slice(2,8).toUpperCase();}
+function compress(dataUrl,cb){
+  const img=new Image();
+  img.onload=function(){
+    const c=document.createElement('canvas'); c.width=c.height=72;
+    const s=Math.min(img.width,img.height);
+    c.getContext('2d').drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,72,72);
+    cb(c.toDataURL('image/jpeg',.55));
   };
-  img.src = dataUrl;
+  img.src=dataUrl;
+}
+function stopHostTimer(){if(hostTI){clearInterval(hostTI);hostTI=null;}}
+function stopPlayerTimer(){if(playerTI){clearInterval(playerTI);playerTI=null;}}
+
+/* ━━━━ FIRESTORE ━━━━ */
+function connectGame(sessionId){
+  sid=sessionId;
+  gameRef=db.collection('games').doc(sid);
+  if(unsub) unsub();
+  unsub=gameRef.onSnapshot(function(snap){
+    if(!snap.exists) return;
+    G=snap.data();
+    if(myMode==='host') renderHost();
+    else if(myMode==='player') renderPlayer();
+  });
 }
 
-function stopHostTimer(){ if(hostTI){clearInterval(hostTI);hostTI=null;} }
-function stopPlayerTimer(){ if(playerTI){clearInterval(playerTI);playerTI=null;} }
-
-/* ━━━━━━━━━ FIRESTORE LISTENER ━━━━━━━━━ */
-function connectGame(sessionId) {
-  sid = sessionId;
-  gameRef = db.collection('games').doc(sid);
-  if (unsubscribe) unsubscribe();
-  unsubscribe = gameRef.onSnapshot(function(snap) {
-    if (!snap.exists) return;
-    G = snap.data();
-    if (myMode === 'host')   renderHost();
-    else if (myMode === 'player') renderPlayer();
-  });
-}
-
-/* ━━━━━━━━━ INIT ━━━━━━━━━ */
-document.addEventListener('DOMContentLoaded', function() {
-
-  // Try to restore session on reload
-  const sess = loadSession();
-  if (sess.sid && sess.mode) {
-    myMode = sess.mode;
-    if (sess.mode === 'host') {
-      show('pg-connecting');
-      document.getElementById('conn-title').textContent = 'セッションを復元中…';
-      db.collection('games').doc(sess.sid).get().then(function(snap) {
-        if (snap.exists) {
-          connectGame(sess.sid);
-          initHostLobby();
-          show('pg-host-lobby');
-        } else {
-          clearSession();
-          show('pg-landing');
+/* ━━━━ INIT ━━━━ */
+document.addEventListener('DOMContentLoaded',function(){
+  // Session restore
+  const sess=loadSess();
+  if(sess.sid&&sess.mode){
+    myMode=sess.mode;
+    show('pg-connecting');
+    document.getElementById('conn-title').textContent='セッションを復元中…';
+    db.collection('games').doc(sess.sid).get().then(function(snap){
+      if(snap.exists){
+        connectGame(sess.sid);
+        if(sess.mode==='host'){initHostLobby(); show('pg-host-lobby');}
+        else{
+          const data=snap.data();
+          if(!pAnswers.length) pAnswers=new Array((data.questions||[]).length).fill('');
+          if(sess.joined&&data.players&&data.players[myPid]){playerJoined=true; show('pg-pwait');}
+          else{initJoinForm(); show('pg-player-join');}
         }
-      }).catch(function(){ clearSession(); show('pg-landing'); });
-    } else if (sess.mode === 'player') {
-      show('pg-connecting');
-      db.collection('games').doc(sess.sid).get().then(function(snap) {
-        if (snap.exists) {
-          const data = snap.data();
-          pAnswers = sess.answers && sess.answers.length ? sess.answers : new Array((data.questions||[]).length).fill('');
-          connectGame(sess.sid);
-          if (sess.joined && data.players && data.players[myPid]) {
-            playerJoined = true;
-            // Go directly to appropriate page based on phase
-            show('pg-pwait');
-          } else {
-            initJoinForm();
-            show('pg-player-join');
-          }
-        } else {
-          clearSession();
-          show('pg-landing');
-        }
-      }).catch(function(){ clearSession(); show('pg-landing'); });
-    }
-    saveSession({ ...sess, pid: myPid });
-    return;
+      }else{clearSess(); show('pg-landing');}
+    }).catch(function(){clearSess(); show('pg-landing');});
+    saveSess({...sess,pid:myPid});
+    bindAll(); return;
   }
-
-  // Landing
-  document.getElementById('btn-host').addEventListener('click', startHost);
-  document.getElementById('btn-player').addEventListener('click', function() {
-    const s = new URLSearchParams(location.search).get('sid');
-    if (s) connectAsPlayer(s.toUpperCase());
-    else show('pg-enter-sid');
-  });
-
-  // SID entry
-  document.getElementById('sid-input').addEventListener('input', function() {
-    this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
-    document.getElementById('btn-connect-sid').disabled = this.value.length < 4;
-  });
-  document.getElementById('btn-connect-sid').addEventListener('click', function() {
-    connectAsPlayer(document.getElementById('sid-input').value);
-  });
-
-  bindButtons();
-
-  // Auto-detect URL
-  const params = new URLSearchParams(location.search);
-  if (params.get('mode') === 'player') {
-    const s = params.get('sid');
-    if (s) connectAsPlayer(s.toUpperCase());
-    else show('pg-enter-sid');
+  bindAll();
+  const params=new URLSearchParams(location.search);
+  if(params.get('mode')==='player'){
+    const s=params.get('sid');
+    if(s) connectAsPlayer(s.toUpperCase()); else show('pg-enter-sid');
   }
-
-  // Firebase ping
   db.collection('_ping').doc('x').get()
-    .then(function(){ document.getElementById('fb-ok').textContent = '✅ Firebase接続OK'; })
-    .catch(function(e){ document.getElementById('fb-ok').textContent = '⚠️ ' + e.message; });
+    .then(function(){document.getElementById('fb-ok').textContent='✅ Firebase接続OK';})
+    .catch(function(e){document.getElementById('fb-ok').textContent='⚠️ '+e.message;});
 });
 
-function bindButtons() {
-  document.getElementById('btn-edit-q').addEventListener('click', toggleEditQ);
-  document.getElementById('btn-save-q').addEventListener('click', saveQuestions);
-  document.getElementById('btn-start-game').addEventListener('click', doStartAnswering);
-  document.getElementById('btn-start-reveal').addEventListener('click', doStartReveal);
-  document.getElementById('btn-open-guess').addEventListener('click', doOpenGuess);
-  document.getElementById('btn-skip').addEventListener('click', doNextAnswer);
-  document.getElementById('btn-reveal').addEventListener('click', doCloseAndScore);
-  document.getElementById('btn-next-p').addEventListener('click', doNextPlayer);
-  document.getElementById('btn-replay').addEventListener('click', doReplay);
-  document.getElementById('btn-photo').addEventListener('click', function(){ document.getElementById('pj-photo-in').click(); });
-  document.getElementById('pj-photo-in').addEventListener('change', handlePhoto);
-  document.getElementById('btn-rm-photo').addEventListener('click', removePhoto);
-  document.getElementById('pj-name').addEventListener('input', updatePrev);
-  document.getElementById('pj-name').addEventListener('keydown', function(e){ if(e.key==='Enter') doJoin(); });
-  document.getElementById('btn-join').addEventListener('click', doJoin);
-  document.getElementById('btn-submit-ans').addEventListener('click', doSubmitAnswers);
-  document.getElementById('btn-player-replay').addEventListener('click', function(){
-    clearSession(); show('pg-enter-sid');
+function bindAll(){
+  document.getElementById('btn-host').addEventListener('click',startHost);
+  document.getElementById('btn-player').addEventListener('click',function(){
+    const s=new URLSearchParams(location.search).get('sid');
+    if(s) connectAsPlayer(s.toUpperCase()); else show('pg-enter-sid');
   });
-  // Also bind landing buttons (needed after session restore path skips early return)
-  document.getElementById('btn-host').addEventListener('click', startHost);
-  document.getElementById('btn-player').addEventListener('click', function() {
-    const s = new URLSearchParams(location.search).get('sid');
-    if (s) connectAsPlayer(s.toUpperCase());
-    else show('pg-enter-sid');
+  document.getElementById('sid-input').addEventListener('input',function(){
+    this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    document.getElementById('btn-connect-sid').disabled=this.value.length<4;
   });
-  document.getElementById('sid-input').addEventListener('input', function() {
-    this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
-    document.getElementById('btn-connect-sid').disabled = this.value.length < 4;
-  });
-  document.getElementById('btn-connect-sid').addEventListener('click', function() {
+  document.getElementById('btn-connect-sid').addEventListener('click',function(){
     connectAsPlayer(document.getElementById('sid-input').value);
   });
+  document.getElementById('btn-edit-q').addEventListener('click',toggleEditQ);
+  document.getElementById('btn-save-q').addEventListener('click',saveQuestions);
+  document.getElementById('btn-start-game').addEventListener('click',doStartAnswering);
+  document.getElementById('btn-start-reveal').addEventListener('click',doStartReveal);
+  document.getElementById('btn-open-guess').addEventListener('click',doOpenGuess);
+  document.getElementById('btn-skip').addEventListener('click',doNextReveal);
+  document.getElementById('btn-close-guess').addEventListener('click',doCloseAndScore);
+  document.getElementById('btn-next-reveal').addEventListener('click',doNextReveal);
+  document.getElementById('btn-replay').addEventListener('click',doReplay);
+  document.getElementById('btn-photo').addEventListener('click',function(){document.getElementById('pj-photo-in').click();});
+  document.getElementById('pj-photo-in').addEventListener('change',handlePhoto);
+  document.getElementById('btn-rm-photo').addEventListener('click',removePhoto);
+  document.getElementById('pj-name').addEventListener('input',updatePrev);
+  document.getElementById('pj-name').addEventListener('keydown',function(e){if(e.key==='Enter') doJoin();});
+  document.getElementById('btn-join').addEventListener('click',doJoin);
+  document.getElementById('btn-submit-ans').addEventListener('click',doSubmitAnswers);
+  document.getElementById('btn-player-replay').addEventListener('click',function(){clearSess();show('pg-enter-sid');});
 }
 
-/* ━━━━━━━━━ HOST: START ━━━━━━━━━ */
-function startHost() {
-  myMode = 'host';
+/* ━━━━ HOST START ━━━━ */
+function startHost(){
+  myMode='host';
   show('pg-connecting');
-  document.getElementById('conn-title').textContent = 'ゲームを作成中…';
-
-  const sessionId = mkSid();
+  document.getElementById('conn-title').textContent='ゲームを作成中…';
+  const sessionId=mkSid();
   db.collection('games').doc(sessionId).set({
-    phase:'lobby', questions:SAMPLE_QS.slice(0,3),
-    order:[], revealIdx:0, answerIdx:0, scores:{},
-    guessOpen:false, guessStartTs:null, players:{}, guesses:{},
-  }).then(function() {
-    saveSession({ pid:myPid, sid:sessionId, mode:'host' });
+    phase:'lobby',questions:SAMPLE_QS.slice(0,3),
+    revealList:[],revealIdx:0,scores:{},
+    guessOpen:false,guessStartTs:null,players:{},guesses:{},
+  }).then(function(){
+    saveSess({pid:myPid,sid:sessionId,mode:'host'});
     connectGame(sessionId);
     initHostLobby();
     show('pg-host-lobby');
-    bindButtons();
-  }).catch(function(err) {
-    const e = document.getElementById('conn-err');
+  }).catch(function(err){
+    const e=document.getElementById('conn-err');
     e.style.display='block';
-    e.textContent='❌ ' + err.message + '\n\nFirestore のルールで allow read, write: if true; を設定してください。';
+    e.textContent='❌ '+err.message+'\n\nFirestoreルールで allow read, write: if true; を設定してください。';
   });
 }
 
-function initHostLobby() {
-  document.getElementById('h-sid').textContent  = sid;
-  document.getElementById('hr-sid').textContent = sid;
-  document.getElementById('qr-sid').textContent = sid;
-  if (G) renderQList();
-  const url = location.href.split('?')[0] + '?mode=player&sid=' + sid;
-  if (window.QRious) {
-    new QRious({ element:document.getElementById('qr-canvas'), value:url, size:200, background:'#13112a', foreground:'#c8b6ff', padding:14, level:'H' });
+function initHostLobby(){
+  document.getElementById('h-sid').textContent=sid;
+  document.getElementById('hr-sid').textContent=sid;
+  document.getElementById('qr-sid').textContent=sid;
+  if(G) renderQList();
+  const url=location.href.split('?')[0]+'?mode=player&sid='+sid;
+  const draw=function(){
+    if(window.QRious) new QRious({element:document.getElementById('qr-canvas'),value:url,size:200,background:'#13112a',foreground:'#c8b6ff',padding:14,level:'H'});
+  };
+  if(window.QRious) draw(); else setTimeout(draw,500);
+}
+
+function doReplay(){
+  const sessionId=mkSid();
+  db.collection('games').doc(sessionId).set({
+    phase:'lobby',questions:G?G.questions:SAMPLE_QS.slice(0,3),
+    revealList:[],revealIdx:0,scores:{},
+    guessOpen:false,guessStartTs:null,players:{},guesses:{},
+  }).then(function(){
+    saveSess({pid:myPid,sid:sessionId,mode:'host'});
+    if(unsub) unsub();
+    connectGame(sessionId);
+    initHostLobby();
+    show('pg-host-lobby');
+  });
+}
+
+/* ━━━━ HOST RENDER ━━━━ */
+function renderHost(){
+  if(!G) return;
+  const phase=G.phase;
+  if(phase==='lobby'){renderLobbyPlayers();}
+  else if(phase==='answering'){
+    if(document.getElementById('pg-host-answering').classList.contains('show')) renderAnsweringProgress();
+    checkAutoTransition();
+  }
+  else if(phase==='allReady'){
+    if(!document.getElementById('pg-host-allready').classList.contains('show')){
+      show('pg-host-allready');
+      renderAllReady();
+    }
+  }
+  else if(phase==='reveal'){
+    if(!document.getElementById('pg-host-reveal').classList.contains('show')){
+      show('pg-host-reveal');
+      identityRevealed=false;
+      lastRevealIdx=-1;
+    }
+    if(G.revealIdx!==lastRevealIdx&&!identityRevealed){
+      lastRevealIdx=G.revealIdx;
+      renderReveal();
+    } else if(G.guessOpen&&!identityRevealed){
+      updateVotes();
+    }
+  }
+  else if(phase==='finished'){
+    if(!document.getElementById('pg-host-finished').classList.contains('show')){
+      show('pg-host-finished'); renderFinished();
+    }
   }
 }
 
-function doReplay() {
-  // Create a new game without reloading the page
-  const sessionId = mkSid();
-  db.collection('games').doc(sessionId).set({
-    phase:'lobby', questions: G ? G.questions : SAMPLE_QS.slice(0,3),
-    order:[], revealIdx:0, answerIdx:0, scores:{},
-    guessOpen:false, guessStartTs:null, players:{}, guesses:{},
-  }).then(function() {
-    saveSession({ pid:myPid, sid:sessionId, mode:'host' });
-    if (unsubscribe) unsubscribe();
-    connectGame(sessionId);
-    initHostLobby();
-    show('pg-host-lobby');
-  });
+function renderLobbyPlayers(){
+  const players=G.players||{}, pids=Object.keys(players);
+  document.getElementById('hl-pc').textContent=pids.length;
+  const pl=document.getElementById('hl-plist');
+  pl.innerHTML=pids.length===0
+    ?'<span style="color:#ffffff22;font-size:14px;">まだ誰もいません…QRコードをスキャンして参加！</span>'
+    :pids.map(id=>{const p=players[id]; return `<div class="chip" style="background:${p.color}18;border-color:${p.color}44;">${avt(p,30)}<span style="color:#fff;font-weight:600;font-size:14px;">${esc(p.name)}</span></div>`;}).join('');
+  const ok=pids.length>=2;
+  document.getElementById('btn-start-game').disabled=!ok;
+  document.getElementById('btn-start-game').style.opacity=ok?'1':'.3';
+  document.getElementById('start-hint').style.display=ok?'none':'block';
 }
 
-/* ━━━━━━━━━ HOST: RENDER ━━━━━━━━━ */
-function renderHost() {
-  if (!G) return;
-  const phase = G.phase;
-  if (phase === 'lobby')     { renderLobbyPlayers(); }
-  if (phase === 'answering') { if (document.getElementById('pg-host-answering').classList.contains('show')) renderAnsweringProgress(); }
-  if (phase === 'reveal')    { if (G.guessOpen && document.getElementById('pg-host-reveal').classList.contains('show')) updateVotes(); }
-}
-
-function renderLobbyPlayers() {
-  const players = G.players || {};
-  const pids = Object.keys(players);
-  document.getElementById('hl-pc').textContent = pids.length;
-  const pl = document.getElementById('hl-plist');
-  pl.innerHTML = pids.length === 0
-    ? '<span style="color:#ffffff22;font-size:14px;">まだ誰もいません…QRコードをスキャンして参加！</span>'
-    : pids.map(id => {
-        const p = players[id];
-        return `<div class="chip" style="background:${p.color}18;border-color:${p.color}44;">${avt(p,30)}<span style="color:#fff;font-weight:600;font-size:14px;">${esc(p.name)}</span></div>`;
-      }).join('');
-  const ok = pids.length >= 2;
-  document.getElementById('btn-start-game').disabled = !ok;
-  document.getElementById('btn-start-game').style.opacity = ok ? '1' : '.3';
-  document.getElementById('start-hint').style.display = ok ? 'none' : 'block';
-}
-
-function renderAnsweringProgress() {
-  const players = G.players || {}, qs = G.questions || [];
-  const pids = Object.keys(players);
-  const allDone = pids.length > 0 && pids.every(id => {
-    const ans = players[id].answers || [];
-    return ans.length === qs.length && ans.every(a => a && a.trim());
-  });
-  document.getElementById('ha-plist').innerHTML = pids.map(id => {
-    const p = players[id], ans = p.answers || [];
-    const done = ans.length === qs.length && ans.every(a => a && a.trim());
+function renderAnsweringProgress(){
+  const players=G.players||{}, qs=G.questions||[], pids=Object.keys(players);
+  document.getElementById('ha-plist').innerHTML=pids.map(id=>{
+    const p=players[id], ans=p.answers||[];
+    const done=ans.length===qs.length&&ans.every(a=>a&&a.trim());
     return `<div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;background:${done?p.color+'28':'#ffffff08'};border:1.5px solid ${done?p.color:'#ffffff15'};">
       ${avt(p,36)}<span style="color:#fff;font-weight:600;">${esc(p.name)}</span><span style="font-size:18px;">${done?'✅':'⌛'}</span>
     </div>`;
   }).join('');
-  const btn = document.getElementById('btn-start-reveal');
-  btn.disabled = !allDone; btn.style.opacity = allDone ? '1' : '.3';
 }
 
-function renderQList() {
-  const qs = (G && G.questions) || SAMPLE_QS.slice(0,3);
-  document.getElementById('hl-qc').textContent = qs.length;
-  document.getElementById('hl-qlist').innerHTML = qs.map((q,i) =>
-    `<div class="qi"><span class="qb">Q${i+1}</span>${esc(q)}</div>`).join('');
+function checkAutoTransition(){
+  if(!G||G.phase!=='answering') return;
+  const players=G.players||{}, qs=G.questions||[], pids=Object.keys(players);
+  if(pids.length===0) return;
+  const allDone=pids.every(id=>{
+    const ans=players[id].answers||[];
+    return ans.length===qs.length&&ans.every(a=>a&&a.trim());
+  });
+  if(allDone) gameRef.update({phase:'allReady'});
 }
 
-function toggleEditQ() {
-  const ed = document.getElementById('hl-qedit'), ql = document.getElementById('hl-qlist');
-  const open = ed.style.display === 'none';
-  if (open) { document.getElementById('hl-qta').value = (G.questions||[]).join('\n'); ed.style.display='block'; ql.style.display='none'; }
-  else { ed.style.display='none'; ql.style.display='block'; }
+function renderQList(){
+  const qs=(G&&G.questions)||SAMPLE_QS.slice(0,3);
+  document.getElementById('hl-qc').textContent=qs.length;
+  document.getElementById('hl-qlist').innerHTML=qs.map((q,i)=>`<div class="qi"><span class="qb">Q${i+1}</span>${esc(q)}</div>`).join('');
 }
 
-function saveQuestions() {
-  const qs = document.getElementById('hl-qta').value.split('\n').map(q=>q.trim()).filter(Boolean);
-  if (!qs.length) return;
-  gameRef.update({ questions: qs });
+function toggleEditQ(){
+  const ed=document.getElementById('hl-qedit'), ql=document.getElementById('hl-qlist');
+  const open=ed.style.display==='none';
+  if(open){document.getElementById('hl-qta').value=(G.questions||[]).join('\n');ed.style.display='block';ql.style.display='none';}
+  else{ed.style.display='none';ql.style.display='block';}
+}
+function saveQuestions(){
+  const qs=document.getElementById('hl-qta').value.split('\n').map(q=>q.trim()).filter(Boolean);
+  if(!qs.length) return;
+  gameRef.update({questions:qs});
   document.getElementById('hl-qedit').style.display='none';
   document.getElementById('hl-qlist').style.display='block';
 }
 
-/* ━━━━━━━━━ HOST: GAME ACTIONS ━━━━━━━━━ */
-function doStartAnswering() {
-  gameRef.update({ phase:'answering' });
+/* ━━━━ ALL READY ANIMATION ━━━━ */
+function renderAllReady(){
+  const players=G.players||{}, qs=G.questions||[];
+  // Build flat list of all answers (shuffled)
+  const items=[];
+  Object.keys(players).forEach(pid=>{
+    qs.forEach(function(q,qIdx){
+      const ans=(players[pid].answers||[])[qIdx]||'';
+      if(ans.trim()) items.push({q,ans,qIdx});
+    });
+  });
+  // shuffle
+  items.sort(()=>Math.random()-.5);
+
+  const grid=document.getElementById('ready-grid');
+  grid.innerHTML='';
+  document.getElementById('ready-start-wrap').style.display='none';
+
+  // Add cards one by one with staggered animation
+  items.forEach(function(item,i){
+    const card=document.createElement('div');
+    card.className='ready-card fly-card';
+    card.style.animationDelay=(i*0.12+0.2)+'s';
+    card.innerHTML=`
+      <div class="rc-q">Q${item.qIdx+1}</div>
+      <div style="color:#9d8fcc;font-size:13px;margin-bottom:8px;">${esc(item.q)}</div>
+      <div class="rc-ans">「${esc(item.ans)}」</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Show start button after all cards appear
+  const totalDelay=(items.length*0.12+0.8)*1000;
+  setTimeout(function(){
+    const wrap=document.getElementById('ready-start-wrap');
+    wrap.style.display='block';
+    wrap.style.animation='flyUp 0.5s ease forwards';
+  }, totalDelay);
+}
+
+/* ━━━━ HOST GAME ACTIONS ━━━━ */
+function doStartAnswering(){
+  gameRef.update({phase:'answering'});
   show('pg-host-answering');
   renderAnsweringProgress();
 }
 
-function doStartReveal() {
-  const players = G.players || {};
-  const order = Object.keys(players).sort(() => Math.random()-.5);
-  const scores = Object.fromEntries(Object.keys(players).map(id=>[id,0]));
-  gameRef.update({ phase:'reveal', order, revealIdx:0, answerIdx:0, guessOpen:false, guessStartTs:null, guesses:{}, scores });
+function doStartReveal(){
+  const players=G.players||{}, qs=G.questions||[];
+  const pids=Object.keys(players);
+  // Flat list: one entry per {pid, qIdx}
+  const list=[];
+  pids.forEach(function(pid){
+    qs.forEach(function(_,qIdx){ list.push({pid,qIdx}); });
+  });
+  list.sort(()=>Math.random()-.5);
+  const scores=Object.fromEntries(pids.map(id=>[id,0]));
+  gameRef.update({phase:'reveal',revealList:list,revealIdx:0,guessOpen:false,guessStartTs:null,guesses:{},scores});
+  identityRevealed=false;
+  lastRevealIdx=-1;
   show('pg-host-reveal');
-  renderReveal();
 }
 
-function renderReveal() {
-  const order = G.order||[], players = G.players||{}, qs = G.questions||[];
-  const owner = order[G.revealIdx], p = players[owner];
-  const ans = (p && p.answers && p.answers[G.answerIdx]) || '';
-  const q   = qs[G.answerIdx] || '';
+function renderReveal(){
+  const list=G.revealList||[], players=G.players||{}, qs=G.questions||[];
+  if(list.length===0) return;
+  const item=list[G.revealIdx];
+  if(!item) return;
+  const p=players[item.pid];
+  const ans=(p&&p.answers&&p.answers[item.qIdx])||'';
+  const q=qs[item.qIdx]||'';
+  const total=list.length;
 
-  document.getElementById('hr-pp').textContent  = `プレイヤー ${G.revealIdx+1}/${order.length}`;
-  document.getElementById('hr-pq').textContent  = `Q${G.answerIdx+1}/${qs.length}`;
-  document.getElementById('hr-ql').textContent  = `質問 Q${G.answerIdx+1}`;
-  document.getElementById('hr-qt').textContent  = q;
-  document.getElementById('hr-ans').textContent = `「${ans}」`;
+  document.getElementById('hr-prog').textContent=`${G.revealIdx+1} / ${total}`;
+  document.getElementById('hr-ql').textContent=`質問 Q${item.qIdx+1}`;
+  document.getElementById('hr-qt').textContent=q;
+  document.getElementById('hr-ans').textContent=`「${ans}」`;
 
-  const nameEl = document.getElementById('hr-name'), avtEl = document.getElementById('hr-avt');
-  if (G.guessOpen) {
-    nameEl.style.color='#ffffff22'; nameEl.textContent='?';
-    avtEl.innerHTML='<div class="mystery">❓</div>';
+  const idArea=document.getElementById('hr-identity-area');
+
+  if(identityRevealed&&p){
+    // ★ 正解発表：プレイヤー名をアニメーションで表示
+    idArea.innerHTML=`
+      <div class="identity-reveal" style="display:flex;align-items:center;gap:14px;">
+        ${avt(p,70)}
+        <div style="text-align:left;">
+          <div style="color:#ffffff66;font-size:12px;">正解は…</div>
+          <div style="color:${p.color};font-size:32px;font-weight:900;text-shadow:0 0 30px ${p.color};">${esc(p.name)}さん！</div>
+        </div>
+      </div>`;
+    document.getElementById('hr-pre').style.display='none';
+    document.getElementById('hr-guess').style.display='none';
+    document.getElementById('hr-post').style.display='block';
+    document.getElementById('hr-pill').textContent='正解発表 🎯';
+    stopHostTimer();
+  } else if(G.guessOpen){
+    // 推理中：？を表示
+    idArea.innerHTML=`<div class="mystery-box" style="font-size:36px;">🤔</div>`;
     document.getElementById('hr-pre').style.display='none';
     document.getElementById('hr-guess').style.display='block';
-    updateVotes(); startHostTimer();
+    document.getElementById('hr-post').style.display='none';
+    document.getElementById('hr-pill').textContent='推理タイム 🔍';
+    updateVotes();
+    startHostTimer();
   } else {
-    nameEl.style.color='#fff'; nameEl.textContent=p?p.name:'';
-    avtEl.innerHTML=p?avt(p,60):'';
+    // 初期状態：？を表示
+    idArea.innerHTML=`<div class="mystery-box">❓</div>`;
     document.getElementById('hr-pre').style.display='flex';
     document.getElementById('hr-guess').style.display='none';
+    document.getElementById('hr-post').style.display='none';
+    document.getElementById('hr-pill').textContent='推理タイム 🔍';
     stopHostTimer();
   }
 }
 
-function updateVotes() {
-  // ★ 全プレイヤーの票を表示
-  const order=G.order||[], players=G.players||{}, guesses=G.guesses||{};
+function updateVotes(){
+  const list=G.revealList||[], players=G.players||{}, guesses=G.guesses||{};
+  const item=list[G.revealIdx]; if(!item) return;
   const el=document.getElementById('hr-votes'); if(!el) return;
-  el.innerHTML = order.map(id => {
+  // Show votes for all players
+  el.innerHTML=Object.keys(players).map(id=>{
     const p=players[id]; if(!p) return '';
     const v=Object.values(guesses).filter(g=>g.targetId===id).length;
     return `<div class="vr" style="background:${p.color}18;border-color:${p.color}44;">
@@ -695,95 +810,81 @@ function updateVotes() {
       <span style="background:${p.color}44;color:${p.color};border-radius:20px;padding:1px 9px;font-size:13px;font-weight:700;margin-left:auto;">${v}</span>
     </div>`;
   }).join('');
-  const gc=Object.keys(guesses).length, gt=order.length;
+  const gc=Object.keys(guesses).length, gt=Object.keys(players).length;
   document.getElementById('hr-tt').textContent=`${gc}/${gt}人が回答済み`;
 }
 
-function startHostTimer() {
+function startHostTimer(){
   stopHostTimer();
-  hostTI = setInterval(function() {
-    if (!G||!G.guessOpen||!G.guessStartTs) return;
+  hostTI=setInterval(function(){
+    if(!G||!G.guessOpen||!G.guessStartTs) return;
     const left=Math.max(0,GUESS_TIME-(Date.now()-G.guessStartTs)/1000);
     const pct=(left/GUESS_TIME)*100, hue=pct>60?260:pct>30?38:0;
     const fill=document.getElementById('hr-tf');
     if(fill){fill.style.width=pct+'%';fill.style.background=`hsl(${hue},78%,62%)`;}
     updateVotes();
     if(left<=0) stopHostTimer();
-  }, 400);
+  },400);
 }
 
-function doOpenGuess() {
-  gameRef.update({ guessOpen:true, guessStartTs:Date.now(), guesses:{} });
+function doOpenGuess(){
+  gameRef.update({guessOpen:true,guessStartTs:Date.now(),guesses:{}});
   renderReveal();
 }
 
-function doCloseAndScore() {
+function doCloseAndScore(){
   stopHostTimer();
-  const order=G.order||[], owner=order[G.revealIdx];
-  const guesses=G.guesses||{}, scores=Object.assign({},G.scores||{});
-  Object.entries(guesses).forEach(function([gid,g]) {
-    if (gid!==owner && g.targetId===owner) {
+  const list=G.revealList||[], item=list[G.revealIdx];
+  if(!item) return;
+  const owner=item.pid, guesses=G.guesses||{}, scores=Object.assign({},G.scores||{});
+  Object.entries(guesses).forEach(function([gid,g]){
+    if(gid!==owner&&g.targetId===owner){
       scores[gid]=(scores[gid]||0)+Math.round(MIN_PTS+(MAX_PTS-MIN_PTS)*(g.tl/GUESS_TIME));
     }
   });
-  gameRef.update({ guessOpen:false, guessStartTs:null, scores });
+  // Update Firestore
+  gameRef.update({guessOpen:false,guessStartTs:null,scores});
+  // Update local state for immediate re-render
+  G.scores=scores; G.guessOpen=false;
+  identityRevealed=true;
   renderReveal();
 }
 
-function doNextAnswer() {
+function doNextReveal(){
   stopHostTimer();
-  const qs=G.questions||[];
-  if (G.answerIdx+1>=qs.length) {
-    gameRef.update({ phase:'ranking', guessOpen:false, guessStartTs:null, guesses:{} });
-    show('pg-host-ranking'); renderRanking();
+  identityRevealed=false;
+  const list=G.revealList||[];
+  if(G.revealIdx+1>=list.length){
+    gameRef.update({phase:'finished'});
+    show('pg-host-finished');
+    renderFinished();
   } else {
-    gameRef.update({ answerIdx:G.answerIdx+1, guessOpen:false, guessStartTs:null, guesses:{} });
-    renderReveal();
+    gameRef.update({revealIdx:G.revealIdx+1,guessOpen:false,guessStartTs:null,guesses:{}});
+    // renderReveal called by Firestore listener via renderHost
   }
 }
 
-function renderRanking() {
-  const order=G.order||[], players=G.players||{}, scores=G.scores||{};
-  const owner=players[order[G.revealIdx]];
-  const sorted=order.slice().sort((a,b)=>(scores[b]||0)-(scores[a]||0));
-  const isLast=G.revealIdx+1>=order.length;
-  document.getElementById('rank-sub').innerHTML=owner
-    ?`${avt(owner,24)} <strong style="color:${owner.color}">${esc(owner.name)}</strong>さんの問題終了！`:'';
-  document.getElementById('rank-rows').innerHTML=sorted.map((id,i)=>{
-    const p=players[id]; if(!p) return '';
-    return `<div class="rr ${i===0?'gold':''}"><span style="font-size:22px;width:30px;">${['🥇','🥈','🥉'][i]||`${i+1}.`}</span>${avt(p,42)}<span style="flex:1;color:#fff;font-weight:700;font-size:17px;text-align:left;">${esc(p.name)}</span><span style="font-weight:900;font-size:22px;color:${i===0?'#ffd700':p.color}">${scores[id]||0}<span style="font-size:12px;color:#ffffff44;">pt</span></span></div>`;
-  }).join('');
-  document.getElementById('btn-next-p').textContent=isLast?'🎊 最終結果へ':'次のプレイヤーへ →';
-}
-
-function doNextPlayer() {
-  const order=G.order||[];
-  if (G.revealIdx+1>=order.length) {
-    gameRef.update({ phase:'finished' });
-    show('pg-host-finished'); renderFinished();
-  } else {
-    gameRef.update({ phase:'reveal', revealIdx:G.revealIdx+1, answerIdx:0, guessOpen:false, guessStartTs:null, guesses:{} });
-    show('pg-host-reveal'); renderReveal();
-  }
-}
-
-function renderFinished() {
-  const order=G.order||[], players=G.players||{}, scores=G.scores||{};
-  const sorted=order.slice().sort((a,b)=>(scores[b]||0)-(scores[a]||0));
+function renderFinished(){
+  const players=G.players||{}, scores=G.scores||{};
+  const sorted=Object.keys(players).sort((a,b)=>(scores[b]||0)-(scores[a]||0));
   document.getElementById('fin-rows').innerHTML=sorted.map((id,i)=>{
     const p=players[id]; if(!p) return '';
-    return `<div class="rr ${i===0?'gold':''}" style="border-radius:16px;${i===0?'transform:scale(1.04);':''}"><span style="font-size:26px;width:34px;">${['🥇','🥈','🥉'][i]||`${i+1}.`}</span>${avt(p,50)}<span style="flex:1;color:#fff;font-weight:800;font-size:19px;text-align:left;">${esc(p.name)}</span><span style="font-weight:900;font-size:26px;color:${i===0?'#ffd700':p.color}">${scores[id]||0}<span style="font-size:13px;color:#ffffff44;">pt</span></span></div>`;
+    return `<div class="rr ${i===0?'gold':''}" style="border-radius:16px;${i===0?'transform:scale(1.04);':''}">
+      <span style="font-size:26px;width:34px;">${['🥇','🥈','🥉'][i]||`${i+1}.`}</span>
+      ${avt(p,50)}
+      <span style="flex:1;color:#fff;font-weight:800;font-size:19px;text-align:left;">${esc(p.name)}</span>
+      <span style="font-weight:900;font-size:26px;color:${i===0?'#ffd700':p.color}">${scores[id]||0}<span style="font-size:13px;color:#ffffff44;">pt</span></span>
+    </div>`;
   }).join('');
 }
 
-/* ━━━━━━━━━ PLAYER: CONNECT ━━━━━━━━━ */
-function connectAsPlayer(sessionId) {
+/* ━━━━ PLAYER CONNECT ━━━━ */
+function connectAsPlayer(sessionId){
   myMode='player';
   show('pg-connecting');
   document.getElementById('conn-title').textContent='ゲームに参加中…';
-
-  db.collection('games').doc(sessionId).get().then(function(snap) {
-    if (!snap.exists) {
+  db.collection('games').doc(sessionId).get().then(function(snap){
+    if(!snap.exists){
       const e=document.getElementById('sid-err');
       e.style.display='block';
       e.textContent='❌ セッションID「'+sessionId+'」が見つかりません。';
@@ -791,48 +892,50 @@ function connectAsPlayer(sessionId) {
     }
     const data=snap.data();
     pAnswers=new Array((data.questions||[]).length).fill('');
-    saveSession({ pid:myPid, sid:sessionId, mode:'player', joined:false, avatar:selAvatar, color:selColor, photoUrl, answers:[] });
+    saveSess({pid:myPid,sid:sessionId,mode:'player',joined:false,avatar:selAvatar,color:selColor,photoUrl,answers:[]});
     connectGame(sessionId);
     initJoinForm();
     show('pg-player-join');
-    bindButtons();
-  }).catch(function(err) {
+  }).catch(function(err){
     const e=document.getElementById('conn-err');
     e.style.display='block';
     e.textContent='❌ '+err.message;
   });
 }
 
-/* ━━━━━━━━━ PLAYER: RENDER ━━━━━━━━━ */
-function renderPlayer() {
-  if (!G) return;
+/* ━━━━ PLAYER RENDER ━━━━ */
+function renderPlayer(){
+  if(!G) return;
   const me=G.players&&G.players[myPid];
   const phase=G.phase, qs=G.questions||[];
 
-  if (phase==='lobby') {
-    if (!playerJoined) return;
+  if(phase==='lobby'){
+    if(!playerJoined) return;
     show('pg-pwait');
     const others=Object.entries(G.players||{}).filter(([id])=>id!==myPid).map(([,p])=>p.name);
-    document.getElementById('pwl-others').textContent=others.length?`他の参加者: ${others.join('、')}`:'';
+    document.getElementById('pwl-others').textContent=others.length?`他の参加者: ${others.join('、')}`:'' ;
     return;
   }
-  if (phase==='answering') {
+  if(phase==='answering'){
     const myAns=(me&&me.answers)||[];
     const done=myAns.length===qs.length&&myAns.every(a=>a&&a.trim());
-    if (done) { show('pg-answered'); return; }
-    if (!ansPageReady) { ansPageReady=true; show('pg-answering'); renderAnswerForm(qs); }
+    if(done){show('pg-answered'); return;}
+    if(!ansPageReady){ansPageReady=true; show('pg-answering'); renderAnswerForm(qs);}
     return;
   }
-  if (phase==='reveal')   { renderGuessPage(); return; }
-  if (phase==='ranking')  { show('pg-pranking'); document.getElementById('prs').textContent=(G.scores&&G.scores[myPid])||0; return; }
-  if (phase==='finished') { show('pg-pfin');    document.getElementById('pfs').textContent=(G.scores&&G.scores[myPid])||0; return; }
+  if(phase==='allReady'){show('pg-player-allready'); return;}
+  if(phase==='reveal'){renderGuessPage(); return;}
+  if(phase==='finished'){
+    show('pg-pfin');
+    document.getElementById('pfs').textContent=(G.scores&&G.scores[myPid])||0;
+    return;
+  }
 }
 
-/* ━━━━━━━━━ PLAYER: JOIN FORM ━━━━━━━━━ */
-function initJoinForm() {
+/* ━━━━ PLAYER JOIN FORM ━━━━ */
+function initJoinForm(){
   const eg=document.getElementById('pj-emoji');
-  eg.innerHTML=AVATARS.map(av=>
-    `<button class="eb ${av===selAvatar?'on':''}" data-av="${av}">${av}</button>`).join('');
+  eg.innerHTML=AVATARS.map(av=>`<button class="eb ${av===selAvatar?'on':''}" data-av="${av}">${av}</button>`).join('');
   eg.addEventListener('click',function(e){
     const b=e.target.closest('.eb'); if(!b) return;
     selAvatar=b.dataset.av; photoUrl=null;
@@ -841,8 +944,7 @@ function initJoinForm() {
     updatePrev();
   });
   const cg=document.getElementById('pj-colors');
-  cg.innerHTML=COLORS.map(c=>
-    `<button class="cd ${c===selColor?'on':''}" data-c="${c}" style="background:${c};"></button>`).join('');
+  cg.innerHTML=COLORS.map(c=>`<button class="cd ${c===selColor?'on':''}" data-c="${c}" style="background:${c};"></button>`).join('');
   cg.addEventListener('click',function(e){
     const b=e.target.closest('.cd'); if(!b) return;
     selColor=b.dataset.c;
@@ -852,69 +954,70 @@ function initJoinForm() {
   updatePrev();
 }
 
-function handlePhoto(e) {
+function handlePhoto(e){
   const file=e.target.files&&e.target.files[0]; if(!file) return;
   const r=new FileReader();
-  r.onload=function(ev){ compressPhoto(ev.target.result,function(c){ photoUrl=c; document.getElementById('pj-photo-img').src=c; document.getElementById('pj-photo-prev').style.display='flex'; updatePrev(); }); };
+  r.onload=function(ev){compress(ev.target.result,function(c){photoUrl=c;document.getElementById('pj-photo-img').src=c;document.getElementById('pj-photo-prev').style.display='flex';updatePrev();});};
   r.readAsDataURL(file);
 }
-
-function removePhoto(){ photoUrl=null; document.getElementById('pj-photo-prev').style.display='none'; updatePrev(); }
-
-function updatePrev() {
+function removePhoto(){photoUrl=null;document.getElementById('pj-photo-prev').style.display='none';updatePrev();}
+function updatePrev(){
   const pa=document.getElementById('pj-avt-prev');
   if(photoUrl){pa.innerHTML=`<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`;}
-  else{pa.textContent=selAvatar; pa.style.background=selColor+'22';}
+  else{pa.textContent=selAvatar;pa.style.background=selColor+'22';}
   pa.style.borderColor=selColor;
   const ok=document.getElementById('pj-name').value.trim().length>0;
   const btn=document.getElementById('btn-join');
   btn.disabled=!ok; btn.style.opacity=ok?'1':'.3';
 }
 
-function doJoin() {
+function doJoin(){
   const name=document.getElementById('pj-name').value.trim(); if(!name) return;
   playerJoined=true;
-  saveSession({ pid:myPid, sid, mode:'player', joined:true, avatar:selAvatar, color:selColor, photoUrl, answers:pAnswers });
-  gameRef.update({ [`players.${myPid}`]: { name, avatar:selAvatar, color:selColor, photoUrl:photoUrl||null, answers:[] } });
+  saveSess({pid:myPid,sid,mode:'player',joined:true,avatar:selAvatar,color:selColor,photoUrl,answers:pAnswers});
+  gameRef.update({[`players.${myPid}`]:{name,avatar:selAvatar,color:selColor,photoUrl:photoUrl||null,answers:[]}});
   show('pg-pwait');
   document.getElementById('pwl-me').innerHTML=
     `<span class="avt" style="width:44px;height:44px;font-size:22px;border:2px solid ${selColor};background:${selColor}22;overflow:hidden;">${photoUrl?`<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`:selAvatar}</span><span style="color:${selColor};font-weight:700;font-size:18px;">${esc(name)}</span>`;
 }
 
-/* ━━━━━━━━━ PLAYER: ANSWERING ━━━━━━━━━ */
-function renderAnswerForm(qs) {
+/* ━━━━ PLAYER ANSWERING ━━━━ */
+function renderAnswerForm(qs){
   if(pAnswers.length!==qs.length) pAnswers=new Array(qs.length).fill('');
   document.getElementById('pa-qlist').innerHTML=qs.map((q,i)=>
     `<div class="card" style="margin-bottom:12px;"><label style="color:#9d8fcc;font-size:14px;display:block;margin-bottom:8px;"><span class="qb">Q${i+1}</span>${esc(q)}</label><textarea rows="2" placeholder="あなたの答えを入力…" maxlength="80" id="pa-a${i}">${esc(pAnswers[i]||'')}</textarea></div>`).join('');
-  qs.forEach((_,i)=>{ document.getElementById('pa-a'+i).addEventListener('input',function(e){ pAnswers[i]=e.target.value; saveSession({ pid:myPid, sid, mode:'player', joined:true, avatar:selAvatar, color:selColor, photoUrl, answers:pAnswers }); checkAnsBtn(); }); });
+  qs.forEach((_,i)=>{
+    document.getElementById('pa-a'+i).addEventListener('input',function(e){
+      pAnswers[i]=e.target.value;
+      saveSess({pid:myPid,sid,mode:'player',joined:true,avatar:selAvatar,color:selColor,photoUrl,answers:pAnswers});
+      checkAnsBtn();
+    });
+  });
   checkAnsBtn();
 }
-
 function checkAnsBtn(){
   const ok=pAnswers.every(a=>a&&a.trim());
   const btn=document.getElementById('btn-submit-ans');
   btn.disabled=!ok; btn.style.opacity=ok?'1':'.3';
 }
-
 function doSubmitAnswers(){
   if(!pAnswers.every(a=>a&&a.trim())) return;
-  gameRef.update({ [`players.${myPid}.answers`]:pAnswers });
+  gameRef.update({[`players.${myPid}.answers`]:pAnswers});
   show('pg-answered');
 }
 
-/* ━━━━━━━━━ PLAYER: GUESS ━━━━━━━━━ */
+/* ━━━━ PLAYER GUESS ━━━━ */
 function renderGuessPage(){
-  const order=G.order||[], players=G.players||{}, qs=G.questions||[];
-  const revKey=G.revealIdx+'-'+G.answerIdx;
-  if(prevRevKey!==revKey){ gSubmitted=false; gTarget=null; prevRevKey=revKey; stopPlayerTimer(); }
+  const list=G.revealList||[], players=G.players||{}, qs=G.questions||[];
+  const revKey=G.revealIdx;
+  if(prevRevKey!==revKey){gSubmitted=false;gTarget=null;prevRevKey=revKey;stopPlayerTimer();}
 
-  const owner=order[G.revealIdx];
-  const ans=(players[owner]&&players[owner].answers&&players[owner].answers[G.answerIdx])||'';
-  const q=qs[G.answerIdx]||'';
+  const item=list[G.revealIdx]; if(!item) return;
+  const ans=(players[item.pid]&&players[item.pid].answers&&players[item.pid].answers[item.qIdx])||'';
+  const q=qs[item.qIdx]||'';
 
   show('pg-guess');
-  document.getElementById('pg-pq').textContent=`Q${G.answerIdx+1}/${qs.length}`;
-  document.getElementById('pg-pp').textContent=`プレイヤー${G.revealIdx+1}/${order.length}`;
+  document.getElementById('pg-prog').textContent=`${G.revealIdx+1} / ${list.length}`;
   document.getElementById('pg-qt').textContent=q;
   document.getElementById('pg-ans').textContent=`「${ans}」`;
 
@@ -934,11 +1037,11 @@ function renderGuessPage(){
     startPlayerTimer();
     const btns=document.getElementById('pg-btns');
     // ★ 自分以外の全員を選択肢として表示（回答者も含む）
-    btns.innerHTML=order.filter(id=>id!==myPid).map(id=>{
+    btns.innerHTML=Object.keys(players).filter(id=>id!==myPid).map(id=>{
       const gp=players[id]; if(!gp) return '';
       return `<button class="gb" style="border-color:${gp.color}66;color:${gp.color};" data-t="${id}">${avt(gp,40)}<span style="font-weight:700;font-size:16px;">${esc(gp.name)}</span></button>`;
     }).join('');
-    btns.onclick=function(e){ const b=e.target.closest('.gb'); if(!b) return; btns.onclick=null; doSubmitGuess(b.dataset.t); };
+    btns.onclick=function(e){const b=e.target.closest('.gb');if(!b) return;btns.onclick=null;doSubmitGuess(b.dataset.t);};
   }
 }
 
@@ -959,7 +1062,7 @@ function doSubmitGuess(targetId){
   if(gSubmitted) return;
   const tl=G.guessStartTs?Math.max(0,GUESS_TIME-(Date.now()-G.guessStartTs)/1000):0;
   gSubmitted=true; gTarget=targetId;
-  gameRef.update({ [`guesses.${myPid}`]:{targetId,tl} });
+  gameRef.update({[`guesses.${myPid}`]:{targetId,tl}});
   renderGuessPage();
 }
 </script>
